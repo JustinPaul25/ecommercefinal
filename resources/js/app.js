@@ -19,6 +19,7 @@ import Messages from './Components/Message/Messages'
 import Orders from './Components/Orders/Orders'
 import CustomerOrders from './Components/Orders/CustomerOrders'
 import Cashier from './Components/Cashier/Cashier'
+import Report from './Components/Reports/Reports'
 
 const app = createApp({
     store,
@@ -34,7 +35,8 @@ const app = createApp({
         Messages,
         Orders,
         CustomerOrders,
-        Cashier
+        Cashier,
+        Report
     }
 })
 app.mixin(global)

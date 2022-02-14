@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CartItem\CartItemCollection;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Recommendation;
 use Illuminate\Http\Request;
 
 class CartController extends Controller

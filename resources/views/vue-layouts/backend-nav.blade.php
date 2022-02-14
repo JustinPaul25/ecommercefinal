@@ -22,7 +22,7 @@
 
                         <a href="{{ route('admin-messages') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Quiries</a>
 
-                        <a href="#" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Reports</a>
+                        <a href="{{ route('reports') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Reports</a>
                     @endif
                 </div>
             @endif
@@ -158,7 +158,7 @@
 
                 <a href="{{ route('admin-categories') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Categories</a>
 
-                <a href="#" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Reports</a>
+                <a href="{{ route('reports') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Reports</a>
 
                 <a href="{{ route('admin-orders') }}" href="#" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Orders</a>
                 

@@ -6,6 +6,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CashierController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\HotDealsController;
 use App\Http\Controllers\CategoriesController;
@@ -96,5 +97,11 @@ Route::post('/cashier-checkout', [CashierController::class, 'checkout'])->middle
 Route::get('/administrator/cashier', function () {
     return view('backend.cashier');
 })->middleware(['auth'])->name('cashier');
+
+//REPORTS
+Route::get('/reports', function () {
+    return view('backend.reports');
+})->middleware(['auth'])->name('reports');
+Route::get('/reports-list', [ReportsController::class, 'list'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';
