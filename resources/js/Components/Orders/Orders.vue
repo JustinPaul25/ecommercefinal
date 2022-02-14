@@ -1,0 +1,139 @@
+<template>
+    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+        <loading :isLoading="isLoading"></loading>
+        <items-modal :datas="items" :isOpen="isOpen" :totalPrice="totalPrice" @closeModal="isOpen = false"/>
+        <div class="bg-white px-4 pb-5 border-b border-gray-200 sm:px-6">
+            <div class="-ml-4 pt-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
+                <div class="flex-1 flex items-center justify-start lg:ml-6">
+                    <div class="max-w-lg w-full lg:max-w-xs">
+                        <label for="search" class="sr-only">Search</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <!-- Heroicon name: solid/search -->
+                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                            </svg>
+                            </div>
+                            <input v-model="search" id="search" name="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Search" type="search">
+                        </div>
+                    </div>
+                </div>
+                <div class="ml-4 mt-2 flex-shrink-0">
+
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Buyer</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                                <th scope="col" class="relative px-6 py-3">
+                                    <span class="sr-only">Edit</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Odd row -->
+                            <tr v-for="order in orders" :key="order" @click="openModal(order)" class="bg-white">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ order.id }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ order.user.name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ order.status }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₱ {{ calculateTotal(order.orders)}}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button v-if="order.status != 'Item Sold'" @click="changeStatus(order)" href="#" class="text-indigo-600 hover:text-indigo-900">{{ buttonLabel(order) }}</button>
+                                    <button v-else class="text-indigo-600 hover:text-indigo-900">{{ buttonLabel(order) }}</button>
+                                </td>
+                            </tr>
+
+                            <!-- More people... -->
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import Loading from '../LoadingSpinner.vue';
+    import ItemsModal from './Modals/ItemsModal.vue'
+
+    export default {
+        components: {
+            Loading,
+            ItemsModal
+        },
+        data() {
+            return {
+                items: {},
+                isLoading: false,
+                orders: [],
+                isOpen: false,
+                search: "",
+                totalPrice: 0,
+                status: ""
+            }
+        },
+        methods: {
+            buttonLabel(order) {
+                if(order.status == "Item/s Getting Ready") {
+                    return "Item Prepared"
+                }
+                if(order.status == "Prepare Item") {
+                    return "Ready for Pick-up"
+                }
+                if(order.status == "Ready for Pick-up") {
+                    return "Item Sold"
+                }
+            },
+            async changeStatus(order) {
+                this.isLoading = true
+                if(order.status == "Item/s Getting Ready") {
+                    var status = "Prepare Item"
+                }
+                if(order.status == "Prepare Item") {
+                    var status = "Ready for Pick-up"
+                }
+                if(order.status == "Ready for Pick-up") {
+                    var status = "Item Sold"
+                }
+
+                await axios.put(`/cart-change-status/${order.id}`, {
+                    status: status
+                }).then(response => {
+                    this.orders = response.data.data
+                    this.isLoading = false
+                })
+            },
+            calculateTotal(items) {
+                const total = Object.values(items).reduce((t, {product, quantity}) => t + (parseFloat(product.price)*quantity), 0)
+                return total
+            },
+            async getOrders() {
+                this.isLoading = true
+                await axios.get('/all-orders')
+                .then(response => {
+                    this.orders = response.data.data
+                    this.isLoading = false
+                });
+            },
+            openModal(cart) {
+                console.log(cart)
+                this.isOpen = true
+                this.items = cart
+                this.totalPrice = this.calculateTotal(cart.orders)
+            }
+        },
+        created() {
+            this.getOrders()
+        }
+    }
+</script>
