@@ -17,6 +17,7 @@ class CashierController extends Controller
         ]);
 
         foreach($request->input('list') as $product) {
+            
             CartItem::create([
                 'cart_id' => $myCart->id,
                 'product_id' => $product['product_id'],
