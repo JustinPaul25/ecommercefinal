@@ -812,6 +812,9 @@ select {
 .-mb-4 {
   margin-bottom: -1rem;
 }
+.ml-12 {
+  margin-left: 3rem;
+}
 .block {
   display: block;
 }
@@ -959,6 +962,12 @@ select {
 .max-w-md {
   max-width: 28rem;
 }
+.max-w-xl {
+  max-width: 36rem;
+}
+.max-w-6xl {
+  max-width: 72rem;
+}
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -967,6 +976,9 @@ select {
 }
 .shrink-0 {
   flex-shrink: 0;
+}
+.border-collapse {
+  border-collapse: collapse;
 }
 .origin-top-right {
   transform-origin: top right;
@@ -1194,6 +1206,9 @@ select {
 .border-b {
   border-bottom-width: 1px;
 }
+.border-r {
+  border-right-width: 1px;
+}
 .border-gray-300 {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
@@ -1220,6 +1235,10 @@ select {
 .border-orange-600 {
   --tw-border-opacity: 1;
   border-color: rgb(234 88 12 / var(--tw-border-opacity));
+}
+.border-gray-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(156 163 175 / var(--tw-border-opacity));
 }
 .bg-white {
   --tw-bg-opacity: 1;
@@ -1308,6 +1327,9 @@ select {
 }
 .p-0 {
   padding: 0px;
+}
+.p-6 {
+  padding: 1.5rem;
 }
 .py-4 {
   padding-top: 1rem;
@@ -1434,6 +1456,9 @@ select {
 .pt-5 {
   padding-top: 1.25rem;
 }
+.pt-8 {
+  padding-top: 2rem;
+}
 .text-left {
   text-align: left;
 }
@@ -1507,6 +1532,9 @@ select {
 }
 .leading-normal {
   line-height: 1.5;
+}
+.leading-7 {
+  line-height: 1.75rem;
 }
 .tracking-wide {
   letter-spacing: 0.025em;
@@ -1607,6 +1635,10 @@ select {
 .text-blue-600 {
   --tw-text-opacity: 1;
   color: rgb(37 99 235 / var(--tw-text-opacity));
+}
+.text-gray-300 {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity));
 }
 .underline {
   -webkit-text-decoration-line: underline;
@@ -1993,6 +2025,13 @@ select {
 .disabled\:opacity-25:disabled {
   opacity: 0.25;
 }
+@media (prefers-color-scheme: dark) {
+
+  .dark\:bg-gray-900 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+  }
+}
 @media (min-width: 640px) {
 
   .sm\:col-span-4 {
@@ -2059,6 +2098,10 @@ select {
 
   .sm\:items-center {
     align-items: center;
+  }
+
+  .sm\:justify-start {
+    justify-content: flex-start;
   }
 
   .sm\:justify-end {

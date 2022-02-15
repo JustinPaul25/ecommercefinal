@@ -117,6 +117,9 @@
                 this.params.month_year = null
                 this.params.year = null
                 this.params.date = newVal
+                this.month = null
+                this.year = null
+                this.month_year = null
                 this.getReports()
             },
             year: function(newVal){
@@ -124,12 +127,17 @@
                 this.params.month_year = null
                 this.params.year = newVal
                 this.params.date = null
+                this.date = null
+                this.month_year = null
+                this.montm = null
                 this.getReports()
             },
             month: function(newVal){
                 this.params.month = newVal
                 this.params.year = null
                 this.params.date = null
+                this.year = null
+                this.data = null
                 if(this.params.month_year != null) {
                     this.getReports()
                 }
@@ -138,6 +146,8 @@
                 this.params.month_year = newVal
                 this.params.year = null
                 this.params.date = null
+                this.year = null
+                this.data = null
                 if(this.params.month != null) {
                     this.getReports()
                 }

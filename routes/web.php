@@ -93,6 +93,7 @@ Route::put('/cart-change-status/{cart}', [OrderController::class, 'cartChangeSta
 //REVIEWS
 Route::post('/review', [ReviewsController::class, 'store'])->middleware(['auth']);
 Route::get('/has-review', [ReviewsController::class, 'checkHasReview'])->middleware(['auth']);
+Route::get('/product-reviews', [ReviewsController::class, 'list']);
 
 //CASHIER
 Route::post('/cashier-checkout', [CashierController::class, 'checkout'])->middleware(['auth']);
@@ -108,5 +109,10 @@ Route::get('/get-reports', [ReportsController::class, 'list'])->middleware(['aut
 
 //RECOMMENDATION
 Route::post('/add-recommendation', [RecommendationController::class, 'store'])->middleware(['auth']);
+
+//PRINT
+Route::get('/print-daily/{date}', function () {
+    return view('/print');
+})->middleware(['auth'])->name('print');
 
 require __DIR__.'/auth.php';

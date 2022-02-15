@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class ReviewsController extends Controller
 {
+    public function list(Request $request)
+    {
+        return response()->json(Review::where('product_id', $request->input('product_id'))->get());
+    }
+
     public function store(Request $request)
     {
         Review::create([

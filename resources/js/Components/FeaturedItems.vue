@@ -21,19 +21,12 @@
                         <p>₱ {{ hotdeal.price }}</p>
                         <ul class="flex items-center gap-x-1">
                             <li>
-                                <i class="text-yellow-300 fas fa-star"></i>
+                                <i class="text-yellow-300 fas fa-star"></i> {{ roundRating(hotdeal.rating.rating) }}
                             </li>
+                        </ul>
+                        <ul class="flex items-center gap-x-1">
                             <li>
-                                <i class="text-yellow-300 fas fa-star"></i>
-                            </li>
-                            <li>
-                                <i class="text-yellow-300 fas fa-star"></i>
-                            </li>
-                            <li>
-                                <i class="text-yellow-300 fas fa-star"></i>
-                            </li>
-                            <li>
-                                <i class="text-yellow-300 far fa-star"></i>
+                                <span class="text-orange-600">{{ hotdeal.rating.count }} Reviews</span>
                             </li>
                         </ul>
                         <p class="text-orange-600">{{ hotdeal.category.name }}</p>
@@ -73,6 +66,14 @@ export default {
         }
     },
     methods: {
+        roundRating(rate) {
+            var rate = Math.round(parseFloat(rate) * 10) / 10
+            if(Number.isNaN(rate)) {
+                return 0
+            } else {
+                return rate
+            }
+        },
         isLoggedIn() {
             return this.app.logged_in
         },
