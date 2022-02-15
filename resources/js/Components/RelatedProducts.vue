@@ -29,7 +29,7 @@
                                 <i class="text-yellow-300 far fa-star"></i>
                             </li>
                         </ul>
-                        <p>₱ {{ hotdeal.category.name }}</p>
+                        <p>{{ hotdeal.category.name }}</p>
                     <div class="flex flex-col xl:flex-row justify-between">
                         <a v-if="isLoggedIn()" class="bg-gradient-to-r from-orange-600 to-pink-500 rounded-full py-2 px-4 my-2 text-sm text-white hover:bg-orange-600 hover:from-orange-600 hover:to-orange-600 flex flex-row justify-center" href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

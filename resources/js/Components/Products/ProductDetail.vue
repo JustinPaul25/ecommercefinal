@@ -4,23 +4,19 @@
         <div class="pt-6">
 
             <!-- Image gallery -->
-            <div class="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
-            <div class="hidden aspect-w-3 aspect-h-4 rounded-lg overflow-hidden lg:block">
-                <img src="https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg" alt="Two each of gray, white, and black shirts laying flat." class="w-full h-full object-center object-cover">
-            </div>
-            <div class="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-                <div class="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden">
-                <img src="https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg" alt="Model wearing plain black basic tee." class="w-full h-full object-center object-cover">
-                </div>
-                <div class="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden">
-                <img src="https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg" alt="Model wearing plain gray basic tee." class="w-full h-full object-center object-cover">
-                </div>
-            </div>
-            <div class="aspect-w-4 aspect-h-5 sm:rounded-lg sm:overflow-hidden lg:aspect-w-3 lg:aspect-h-4">
-                <img src="https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg" alt="Model wearing plain white basic tee." class="w-full h-full object-center object-cover">
-            </div>
-            </div>
+            <div class="px-8">
+                <Carousel>
+                    <Slide v-for="slide in images" :key="slide">
+                        <div class="carousel__item">
+                            <img :src="slide">
+                        </div>
+                    </Slide>
 
+                    <template #addons>
+                    <Navigation />
+                    </template>
+                </Carousel>
+            </div>
             <!-- Product info -->
             <div class="max-w-2xl mx-auto pt-10 pb-16 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-24 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
             <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
@@ -78,7 +74,7 @@
                         <input v-model="pcs" type="number" name="quantity" id="quantity" class="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="0">
                     </div>
                 </div>
-                <button @click="storeToCart()" v-if="isLoggedIn()" type="submit" class="mt-2 w-full bg-orange-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Add to Cart</button>
+                <button :disabled="checkQuantity()" @click="storeToCart()" v-if="isLoggedIn()" type="submit" class="mt-2 w-full bg-orange-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Add to Cart</button>
                 <a v-else href="/login" class="mt-2 w-full bg-orange-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Login</a>
                 <button v-if="isLoggedIn()" @click="sendMessage()" type="submit" class="mt-10 w-full bg-orange-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Ask Question</button>
             </div>
@@ -112,6 +108,9 @@
     import RelatedProducts from '../RelatedProducts.vue'
     import ProductReviews from './ProductReviews.vue'
     import Loading from "../LoadingSpinner.vue"
+    import { Carousel, Navigation, Pagination, Slide } from 'vue3-carousel';
+
+    import 'vue3-carousel/dist/carousel.css';
 
     export default {
         props: {
@@ -120,15 +119,23 @@
         components: {
             RelatedProducts,
             ProductReviews,
-            Loading
+            Loading,
+            Carousel,
+            Slide,
+            Pagination,
+            Navigation,
         },
         data() {
             return {
                 pcs: 0,
-                isLoading: false
+                isLoading: false,
+                images: []
             }
         },
         methods: {
+            checkQuantity() {
+                return (this.data < this.pcs || this.pcs == 0)
+            },
             async storeToCart() {
                 var form = {
                     product_id: this.data.id,
@@ -183,10 +190,38 @@
             },
             isLoggedIn() {
                 return this.app.logged_in
-            },
-            async addTocart() {
-
             }
+        },
+        created() {
+            this.data.images.forEach(element => {
+                if(element != '') {
+                    this.images.push(element)
+                }
+            });
         }
     }
 </script>
+
+<style>
+    .carousel__item {
+        min-height: 200px;
+        width: 100%;
+        background-color: #ffedd5;
+        color:  rgb(234, 88, 12);
+        font-size: 20px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .carousel__slide {
+        padding: 10px;
+    }
+
+    .carousel__prev,
+    .carousel__next {
+        box-sizing: content-box;
+        border: 5px solid white;
+    }
+</style>

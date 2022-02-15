@@ -102,6 +102,8 @@ Route::get('/administrator/cashier', function () {
 Route::get('/reports', function () {
     return view('backend.reports');
 })->middleware(['auth'])->name('reports');
-Route::get('/reports-list', [ReportsController::class, 'list'])->middleware(['auth']);
+Route::get('/get-reports', [ReportsController::class, 'list'])->middleware(['auth']);
+
+//RECOMMENDATION
 
 require __DIR__.'/auth.php';

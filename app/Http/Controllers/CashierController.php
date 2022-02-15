@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Sold;
 use App\Models\Product;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
@@ -28,6 +29,13 @@ class CashierController extends Controller
             $currentProduct->update([
                 'stock' => ($currentProduct->stock - $product['pcs']),
                 'sold' => ($currentProduct->sold + $product['pcs'])
+            ]);
+
+            Sold::create([
+                'product_id' => $currentProduct->id,
+                'cart_id' => $myCart->id,
+                'quantity' => $product['pcs'],
+                'total_price' => $product['pcs']*$currentProduct->price
             ]);
         }
         
