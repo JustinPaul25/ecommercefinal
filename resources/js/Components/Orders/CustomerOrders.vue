@@ -2,7 +2,7 @@
     <div class="bg-white shadow overflow-hidden sm:rounded-md mx-4 mt-8">
         <loading :isLoading="isLoading"></loading> 
         <items-modal :datas="items" :isOpen="isOpen" :totalPrice="totalPrice" @productReviewModal="openProductReview" @closeModal="isOpen = false"/>
-        <review-modal :productId="id" :productName="name" :isOpen="isOpenReview" @closeModal="isOpenReview = false; isOpen = true"/>
+        <review-modal :cartId="cart" :productId="id" :productName="name" :isOpen="isOpenReview" @closeModal="isOpenReview = false; isOpen = true"/>
         <div class="bg-white px-4 pb-5 border-b border-gray-200 sm:px-6">
             <div class="-ml-4 pt-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
                 <div class="flex-1 flex items-center justify-start lg:ml-6">
@@ -79,11 +79,13 @@
         search: "",
         totalPrice: "0",
         id: 0,
-        name: ''
+        name: '',
+        cart: ''
       }
     },
     methods: {
         openProductReview(product) {
+            this.cart = product.id
             this.id = product.product.id
             this.name = product.product.name
             this.isOpen = false

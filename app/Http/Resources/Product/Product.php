@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Product;
 
+use App\Models\Review;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Product extends JsonResource
@@ -28,7 +29,16 @@ class Product extends JsonResource
             'sold' => $this->sold,
             'created_at' => $this->created_at,
             'images' => $this->images(),
-            'category' => $this->category
+            'category' => $this->category,
+            'rating' => $this->calculateRating($this->id)
         ];
+    }
+
+    public function calculateRating($id)
+    {
+        $rating = Review::where('product_id', $id)->avg('stars');
+        $count = Review::where('product_id', $id)->get();
+        $reviews = (object) ['rating' => $rating, 'count' => count($count)];
+        return $reviews;
     }
 }

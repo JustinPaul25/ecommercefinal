@@ -51,19 +51,6 @@
                                     </div>
                                 </div>
                                   <div class="flex mt-4">
-                                    <div>
-                                      Total: ₱ {{ totalPrice }}
-                                    </div>
-                                    <button
-                                      v-if="!isCustomer()"
-                                      @click="closeModal()"
-                                      class="px-6 py-2 text-orange-800 border border-orange-600 ml-auto rounded"
-                                    >
-                                      Cancel
-                                    </button>
-                                    <button v-if="!isCustomer()" @click="saveCategory()" class="px-6 py-2 ml-2 text-orange-100 bg-orange-600 rounded">
-                                      Save
-                                    </button>
                                   </div>
                               </div>
                           </div>
@@ -83,8 +70,9 @@ export default {
     props: {
         datas: Object,
         isOpen: Boolean,
-        totalPrice: String,
-        status: String
+        totalPrice: Number,
+        status: String,
+        label: String
     },
     components: {
         Loading
@@ -103,8 +91,24 @@ export default {
             return false
           }
         },
-        postReview(product) {
-          this.$emit('productReviewModal', product)
+        async postReview(product) {
+          await axios.get('/has-review', {
+            params: {
+              product_id: product.product.id,
+              cart_id: product.id
+            }
+          }).then(response => {
+            console.log(response)
+            if(response.data) {
+              this.$emit('productReviewModal', product)
+            } else {
+              this.$swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'You already pos a review to this product',
+              })
+            }
+          })
         },
         reduceTotal() {
           let total = null;

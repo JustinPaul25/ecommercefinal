@@ -91,6 +91,7 @@ Route::put('/cart-change-status/{cart}', [OrderController::class, 'cartChangeSta
 
 //REVIEWS
 Route::post('/review', [ReviewsController::class, 'store'])->middleware(['auth']);
+Route::get('/has-review', [ReviewsController::class, 'checkHasReview'])->middleware(['auth']);
 
 //CASHIER
 Route::post('/cashier-checkout', [CashierController::class, 'checkout'])->middleware(['auth']);

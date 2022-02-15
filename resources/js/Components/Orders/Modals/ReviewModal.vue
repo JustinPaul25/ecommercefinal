@@ -63,6 +63,7 @@ import Loading from '../../LoadingSpinner.vue';
 
 export default {
     props: {
+        cartId: Number,
         productId: Number,
         productName: String,
         isOpen: Boolean,
@@ -116,6 +117,7 @@ export default {
         },
         async postReview() {
           var form = {
+            cart_id: this.cartId,
             product_id: this.productId,
             comment: this.comment,
             stars: this.value
