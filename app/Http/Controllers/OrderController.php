@@ -7,6 +7,7 @@ use App\Models\Sold;
 use App\Models\Product;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
+use App\Models\Recommendation;
 use App\Http\Resources\Cart\CartCollection;
 
 class OrderController extends Controller
@@ -38,6 +39,13 @@ class OrderController extends Controller
                     'cart_id' => $cart->id,
                     'quantity' => $item->quantity,
                     'total_price' => ($item->quantity*$product->price)
+                ]);
+
+                Recommendation::create([
+                    'user_id' => $cart->user_id,
+                    'brand' => $product->name,
+                    'category_id' => $product->category_id,
+                    'type' => 'Purchased'
                 ]);
             }
         }

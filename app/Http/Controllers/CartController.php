@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CartItem\CartItemCollection;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Product;
 use App\Models\Recommendation;
 use Illuminate\Http\Request;
 
@@ -34,6 +35,9 @@ class CartController extends Controller
             'product_id' => $request->input('product_id'),
             'quantity' => $request->input('quantity')
         ]);
+
+        $product = Product::where('id', $request->input('product_id'))->first();
+        storeRecommendation($product, 'Added to cart');
 
         return 'product added to cart';
     }
@@ -74,6 +78,11 @@ class CartController extends Controller
     {
         $user = auth()->user();
         $cart = Cart::where('user_id', $user->id)->where('status', 'unprocess')->first();
+
+        foreach($cart->cartItems as $item) {
+            $product = Product::where('id', $item->id)->first();
+            storeRecommendation($product, 'Checkout');
+        }
 
         $cart->update([
             'status' => 'Item/s Getting Ready'

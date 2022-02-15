@@ -173,6 +173,15 @@
             },
             isLoggedIn() {
                 return this.app.logged_in
+            },
+            async storeRecommendation() {
+                var form = {
+                    product_id: this.data.id
+                }
+                await axios.post('/add-recommendation', form)
+                .then(response => {
+                    console.log(response)
+                })
             }
         },
         created() {
@@ -181,6 +190,7 @@
                     this.images.push(element)
                 }
             });
+            this.storeRecommendation()
         }
     }
 </script>

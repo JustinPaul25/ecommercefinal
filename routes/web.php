@@ -14,6 +14,7 @@ use App\Http\Controllers\NewArrivalController;
 use App\Http\Controllers\ProductViewController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\LoginRedirectController;
+use App\Http\Controllers\RecommendationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,5 +107,6 @@ Route::get('/reports', function () {
 Route::get('/get-reports', [ReportsController::class, 'list'])->middleware(['auth']);
 
 //RECOMMENDATION
+Route::post('/add-recommendation', [RecommendationController::class, 'store'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';

@@ -21655,16 +21655,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     isLoggedIn: function isLoggedIn() {
       return this.app.logged_in;
+    },
+    storeRecommendation: function storeRecommendation() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var form;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                form = {
+                  product_id: _this4.data.id
+                };
+                _context3.next = 3;
+                return axios.post('/add-recommendation', form).then(function (response) {
+                  console.log(response);
+                });
+
+              case 3:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.data.images.forEach(function (element) {
       if (element != '') {
-        _this4.images.push(element);
+        _this5.images.push(element);
       }
     });
+    this.storeRecommendation();
   }
 });
 
@@ -23310,6 +23336,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* PROPS */
     , _hoisted_14)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: "/product/".concat(hotdeal.id),
+      onClick: _cache[0] || (_cache[0] = function ($event) {
+        return _ctx.storeRecommendation();
+      }),
       "class": "bg-orange-600 rounded-full py-2 px-4 my-2 text-sm text-white hover:bg-orange-700 flex flex-row justify-center"
     }, _hoisted_21, 8
     /* PROPS */
