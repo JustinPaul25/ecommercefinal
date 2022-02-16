@@ -20,7 +20,6 @@
   bottom: 0;
   width: 100%;
   border-top: 1px solid black; /* for demo */
-  background: yellow; /* for demo */
 }
 
 .page-header {
@@ -28,7 +27,6 @@
   top: 0mm;
   width: 100%;
   border-bottom: 1px solid black; /* for demo */
-  background: yellow; /* for demo */
 }
 
 .page {
@@ -80,7 +78,7 @@
     Ming Computer Solutions
   </div>
 
-  <table>
+  <table style="width: 100%">
 
     <thead>
       <tr>
@@ -91,27 +89,34 @@
       </tr>
     </thead>
 
-    <tbody>
+    <tbody style="width: 100%">
       <tr>
         <td>
           <!--*** CONTENT GOES HERE ***-->
-          <div class="page" style="line-height: 3;">
-            <table class="table-items">
+          <div style="width: 100%" class="page" style="line-height: 3;">
+            <table style="width: 100%" class="table-items">
                 <tr class='tr-items'>
-                  <th class="th-items">Cart Id</th>
+                  <th class="th-items">Id</th>
                   <th class="th-items">Product</th>
                   <th class="th-items">Quantity</th>
                   <th class="th-items">Price</th>
                   <th class="th-items"></th>
                 </tr>
-                <tr class='tr-items'>
-                  <td class="td-items">Alfreds Futterkiste</td>
-                  <td class="td-items">Maria Anders</td>
-                  <td class="td-items">Germany</td>
-                  <td class="td-items">Germany</td>
-                  <td class="td-items">Germany</td>
-                </tr>
+                @php $total = 0;@endphp
+                @foreach ($data as $item)
+                  <tr class='tr-items'>
+                    <td class="td-items">{{ $item->id }}</td>
+                    <td class="td-items" style="width: 100%">{{ $item->product['name'] }}</td>
+                    <td class="td-items">{{ $item->quantity }}</td>
+                    <td class="td-items" style="padding-left: 10px; padding-right: 10px">{{ $item->product['price'] }}</td>
+                    <td class="td-items" style="padding-left: 10px; padding-right: 10px">{{ ($item->product['price']*$item->quantity) }}</td>
+                  </tr>
+                  <div style="display: none">{{$total += $item->product['price']*$item->quantity}}</div>
+                @endforeach
               </table>
+              <div style="text-align: end">
+                <h1>Total Income: {{ $total }}</h1>
+              </div>
           </div>
         </td>
       </tr>
