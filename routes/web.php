@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PrintController;
 use App\Http\Controllers\CashierController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProductController;
@@ -111,8 +112,8 @@ Route::get('/get-reports', [ReportsController::class, 'list'])->middleware(['aut
 Route::post('/add-recommendation', [RecommendationController::class, 'store'])->middleware(['auth']);
 
 //PRINT
-Route::get('/print-daily/{date}', function () {
-    return view('/print');
-})->middleware(['auth'])->name('print');
+Route::get('/print-daily/{date}', [PrintController::class, 'dateReport'])->middleware(['auth']);
+Route::get('/print-monthly/{month}/{year}', [PrintController::class, 'monthReport'])->middleware(['auth']);
+Route::get('/print-yearly/{year}', [PrintController::class, 'yearReport'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';

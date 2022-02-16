@@ -6,8 +6,18 @@ use Illuminate\Http\Request;
 
 class PrintController extends Controller
 {
-    public function printDaily($daily)
+    public function dateReport($date)
     {
-        # code...
+        dd($date);
+    }
+
+    public function monthReport($month, $year)
+    {
+        dd($month);
+    }
+
+    public function yearReport($year)
+    {
+        dd($year);
     }
 }

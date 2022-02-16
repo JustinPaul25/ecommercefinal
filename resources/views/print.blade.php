@@ -44,7 +44,7 @@
 .td-items, .th-items {
   border: 1px solid #dddddd;
   text-align: left;
-  padding: 8px;
+  padding: 4px;
 }
 
 .tr-items:nth-child(even) {
@@ -98,13 +98,17 @@
           <div class="page" style="line-height: 3;">
             <table class="table-items">
                 <tr class='tr-items'>
-                  <th class="th-items">Company</th>
-                  <th class="th-items">Contact</th>
-                  <th class="th-items">Country</th>
+                  <th class="th-items">Cart Id</th>
+                  <th class="th-items">Product</th>
+                  <th class="th-items">Quantity</th>
+                  <th class="th-items">Price</th>
+                  <th class="th-items"></th>
                 </tr>
                 <tr class='tr-items'>
                   <td class="td-items">Alfreds Futterkiste</td>
                   <td class="td-items">Maria Anders</td>
+                  <td class="td-items">Germany</td>
+                  <td class="td-items">Germany</td>
                   <td class="td-items">Germany</td>
                 </tr>
               </table>

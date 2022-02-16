@@ -15,7 +15,7 @@ class LoginRedirectController extends Controller
         if(auth()->user()->isCustomer()) {
             return redirect('/');
         } else {
-            return redirect('/dashboard');
+            return redirect('/administrator/orders');
         }
     }
 }

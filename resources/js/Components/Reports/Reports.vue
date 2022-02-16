@@ -1,4 +1,7 @@
 <template>
+    <a :href="printUrl" target="_blank" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Print Reports
+    </a>
     <div class="grid pt-12 lg:grid-cols-3 lg:gap-x-5 lg:gap-y-12 mb-4">
         <div class="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-orange-600 focus-within:border-orange-600">
             <label for="name" class="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900">Filter By Month</label>
@@ -108,7 +111,8 @@
                     month_year: null,
                     date: null
                 },
-                totalIncome: 0
+                totalIncome: 0,
+                printUrl: ''
             }
         },
         watch: {
@@ -121,6 +125,7 @@
                 this.year = null
                 this.month_year = null
                 this.getReports()
+                this.printUrl = `/print-daily/${newVal}`
             },
             year: function(newVal){
                 this.params.month = null
@@ -129,8 +134,9 @@
                 this.params.date = null
                 this.date = null
                 this.month_year = null
-                this.montm = null
+                this.month = null
                 this.getReports()
+                this.printUrl = `/print-yearly/${newVal}`
             },
             month: function(newVal){
                 this.params.month = newVal
@@ -140,6 +146,7 @@
                 this.data = null
                 if(this.params.month_year != null) {
                     this.getReports()
+                    this.printUrl = `/print-monthly/${newVal}/${this.month_year}`
                 }
             },
             month_year: function(newVal){
@@ -150,6 +157,7 @@
                 this.data = null
                 if(this.params.month != null) {
                     this.getReports()
+                    this.printUrl = `/print-monthly/${this.month}/${newVal}`
                 }
             }
         },
