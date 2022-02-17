@@ -21,6 +21,7 @@ import Orders from './Components/Orders/Orders'
 import CustomerOrders from './Components/Orders/CustomerOrders'
 import Cashier from './Components/Cashier/Cashier'
 import Report from './Components/Reports/Reports'
+import Settings from './Components/Settings'
 
 const app = createApp({
     store,
@@ -38,7 +39,8 @@ const app = createApp({
         CustomerOrders,
         Cashier,
         Report,
-        Recommended
+        Recommended,
+        Settings
     }
 })
 app.mixin(global)

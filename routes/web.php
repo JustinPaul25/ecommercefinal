@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PrintController;
 use App\Http\Controllers\CashierController;
@@ -38,6 +39,13 @@ Route::get('/login-redirect', [LoginRedirectController::class, 'login'])->middle
 Route::get('/dashboard', function () {
         return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+//USER
+Route::get('/settings', function () {
+    return view('settings');
+})->middleware(['auth'])->name('settings');
+Route::get('/my-data', [UserController::class, 'myData'])->middleware(['auth']);
+Route::post('/update-data', [UserController::class, 'update'])->middleware(['auth']);
 
 //CATEGORIES
 Route::get('/administrator/categories', function () {
