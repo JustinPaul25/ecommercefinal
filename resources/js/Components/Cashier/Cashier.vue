@@ -26,7 +26,7 @@
                                         <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-500">{{ item.pcs }}</td>
                                         <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-500">{{ item.price }}</td>
                                         <td class="px-6 py-1 whitespace-nowrap text-right text-sm font-medium">
-                                            <a href="#" class="text-orange-600 hover:text-orange-900">Remove</a>
+                                            <a @click="removeItem(item)" class="text-orange-600 hover:text-orange-900">Remove</a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -88,6 +88,11 @@
             }
         },
         methods: {
+            removeItem(item) {
+                this.cart = this.cart.filter(function( obj ) {
+                    return obj.product_id !== item.product_id;
+                });
+            },
             reduceTotal() {
                 const total = Object.values(this.cart).reduce((t, cart) => t + (parseFloat(cart.price)*parseFloat(cart.pcs)), 0)
                 this.total = total
@@ -102,15 +107,20 @@
                     },
                     showCancelButton: true,
                     confirmButtonText: 'Add To Cart',
+                    confirmButtonColor: '#ea580c',
                     showLoaderOnConfirm: true,
                     preConfirm: (quantity) => {
-                        var item = {
-                            product_id: product.id,
-                            pcs: quantity,
-                            name: product.name,
-                            price: product.price
+                        if(!quantity > 0) {
+                            this.$swal.fire('Please enter quantity')
+                        } else {
+                            var item = {
+                                product_id: product.id,
+                                pcs: quantity,
+                                name: product.name,
+                                price: product.price
+                            }
+                            this.cart.push(item)
                         }
-                        this.cart.push(item)
                     },
                     allowOutsideClick: () => !this.$swal.isLoading()
                     }).then((result) => {

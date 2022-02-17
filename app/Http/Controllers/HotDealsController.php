@@ -10,7 +10,7 @@ class HotDealsController extends Controller
 {
     public function heroData()
     {
-        $product = Product::where('hot_deal', 1)->take(4)->get();
+        $product = Product::where('hot_deal', 1)->orderBy('created_at', 'desc')->take(4)->get();
 
         return new ProductCollection($product);
     }

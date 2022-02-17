@@ -64,7 +64,7 @@ class ProductViewController extends Controller
         if(count($condition) == 0) {
             $datas = $products->paginate(12);
         } else {
-            $datas = $products->where($condition)->paginate(12); 
+            $datas = $products->where($condition)->orderBy('created_at', 'desc')->paginate(12); 
         }
         
         return new ProductCollection($datas);

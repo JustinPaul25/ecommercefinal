@@ -78,7 +78,7 @@ export default {
             return this.app.logged_in
         },
         async getHotDeals() {
-            await axios.get('/hot-deals')
+            await axios.get('/recommendations')
             .then(response => {
                 this.hotDeals = response.data.data
             })

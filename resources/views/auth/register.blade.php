@@ -20,6 +20,12 @@
             </div>
 
             <div class="mt-4">
+                <x-label for="phone_no" :value="__('Phone No.')" />
+
+                <x-input id="phone_no" class="block mt-1 w-full" type="text" name="phone_no" :value="old('phone_no')" required autofocus />
+            </div>
+
+            <div class="mt-4">
                 <x-label for="city" :value="__('City')" />
 
                 <x-input id="city" class="block mt-1 w-full" type="text" name="city" :value="old('city')" required autofocus />

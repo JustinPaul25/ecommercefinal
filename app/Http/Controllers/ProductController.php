@@ -11,9 +11,9 @@ class ProductController extends Controller
     public function getProducts(Request $request)
     {
         if($request->filled('search')) {
-            $product = Product::where('name', 'LIKE', '%'.$request->input('search').'%')->paginate(20);
+            $product = Product::where('name', 'LIKE', '%'.$request->input('search').'%')->orderBy('created_at', 'desc')->paginate(20);
         } else {
-            $product = Product::paginate(20);
+            $product = Product::orderBy('created_at', 'desc')->paginate(20);
         }
 
         return new ProductCollection($product);
@@ -21,6 +21,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        //dd($request->file('image_two'));
         $product = Product::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
@@ -63,7 +64,7 @@ class ProductController extends Controller
             $product->addMedia($request->file('image_five'))->toMediaCollection('product-image-five');
         }
 
-        return new ProductCollection(Product::paginate(20));
+        return new ProductCollection(Product::orderBy('created_at', 'desc')->paginate(20));
     }
 
     public function update(Request $request, Product $product)
@@ -94,7 +95,7 @@ class ProductController extends Controller
 
         createLog($product, $inputs, 'Product Updated');
 
-        return new ProductCollection(Product::paginate(20));
+        return new ProductCollection(Product::orderBy('created_at', 'desc')->paginate(20));
     }
 
     public function updateStock(Request $request, Product $product)
@@ -111,6 +112,6 @@ class ProductController extends Controller
             'stock' => $newStock
         ]);
 
-        return new ProductCollection(Product::paginate(20));
+        return new ProductCollection(Product::orderBy('created_at', 'desc')->paginate(20));
     }
 }

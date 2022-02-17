@@ -14,6 +14,9 @@
             </div>
         </div>
     </div>
+    @if(auth()->user())
+        <recomendations></recomendations>
+    @endif
     <featured-items></featured-items>
     <new-arrival-items></new-arrival-items>
 @endsection

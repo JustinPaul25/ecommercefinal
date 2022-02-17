@@ -38,6 +38,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'brgy' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
+            'phone_no' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -46,6 +47,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'brgy' => $request->brgy,
             'city' => $request->city,
+            'phone_no' => $request->phone_no,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
