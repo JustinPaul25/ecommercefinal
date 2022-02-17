@@ -75,6 +75,9 @@
                         <a class="block px-4 py-2 text-sm text-gray-700"  role="menuitem" tabindex="-1" id="user-menu-item-2" href="{{ route('settings') }}">
                             {{ __('User Settings') }}
                         </a>
+                        <a class="block px-4 py-2 text-sm text-gray-700"  role="menuitem" tabindex="-1" id="user-menu-item-2" href="{{ route('change-password') }}">
+                            {{ __('Change Password') }}
+                        </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <a class="block px-4 py-2 text-sm text-gray-700"  role="menuitem" tabindex="-1" id="user-menu-item-2" href="{{ route('logout') }}" onclick="event.preventDefault();this.closest('form').submit();">
@@ -191,6 +194,9 @@
             <div id="mobile-menu" class="hidden mt-3 px-2 space-y-1">
                 <a class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-orange-500 hover:bg-opacity-75" href="{{ route('settings') }}">
                     {{ __('User Settings') }}
+                </a>
+                <a class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-orange-500 hover:bg-opacity-75" href="{{ route('change-password') }}">
+                    {{ __('Change Password') }}
                 </a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

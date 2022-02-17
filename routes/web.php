@@ -44,8 +44,12 @@ Route::get('/dashboard', function () {
 Route::get('/settings', function () {
     return view('settings');
 })->middleware(['auth'])->name('settings');
+Route::get('/change-password', function () {
+    return view('change-password');
+})->middleware(['auth'])->name('change-password');
 Route::get('/my-data', [UserController::class, 'myData'])->middleware(['auth']);
 Route::post('/update-data', [UserController::class, 'update'])->middleware(['auth']);
+Route::post('/user-change-password', [UserController::class, 'changePassword'])->middleware(['auth']);
 
 //CATEGORIES
 Route::get('/administrator/categories', function () {

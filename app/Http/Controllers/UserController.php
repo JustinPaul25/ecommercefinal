@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\User\User as UserResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\User\User as UserResource;
 
 class UserController extends Controller
 {
@@ -28,5 +29,11 @@ class UserController extends Controller
         }
 
         return new UserResource(auth()->user());
+    }
+
+    public function changePassword(Request $request)
+    {
+        $user = auth()->user();
+        return $user->update([ 'password' => Hash::make($request->input('password')) ]);
     }
 }
