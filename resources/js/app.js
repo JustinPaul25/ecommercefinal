@@ -12,6 +12,7 @@ import Products from './Components/Products/Products'
 import Categories from './Components/Categories/Categories'
 import FeaturedItems from './Components/FeaturedItems'
 import NewArrivalItems from './Components/NewArrivalItems'
+import Recommended from './Components/Recommended'
 import ProductGrid from './Components/Products/ProductGrid'
 import ProductDetail from './Components/Products/ProductDetail'
 import CartItems from './Components/Checkout/CartItems'
@@ -36,7 +37,8 @@ const app = createApp({
         Orders,
         CustomerOrders,
         Cashier,
-        Report
+        Report,
+        Recommended
     }
 })
 app.mixin(global)

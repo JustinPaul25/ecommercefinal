@@ -33,7 +33,7 @@ class OnlinePaymentController extends Controller
 
         foreach($cart->cartItems as $item) {
             $product = Product::where('id', $item->id)->first();
-            storeRecommendation($product, 'Purchased');
+            storeRecommendation($product);
         }
 
         $cart->update([

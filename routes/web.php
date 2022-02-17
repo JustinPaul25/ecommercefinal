@@ -111,6 +111,7 @@ Route::get('/get-reports', [ReportsController::class, 'list'])->middleware(['aut
 
 //RECOMMENDATION
 Route::post('/add-recommendation', [RecommendationController::class, 'store'])->middleware(['auth']);
+Route::get('/list-recommendation', [RecommendationController::class, 'heroData'])->middleware(['auth']);
 
 //PRINT
 Route::get('/print-daily/{date}', [PrintController::class, 'dateReport'])->middleware(['auth']);

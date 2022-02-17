@@ -41,12 +41,15 @@ class OrderController extends Controller
                     'total_price' => ($item->quantity*$product->price)
                 ]);
 
-                Recommendation::create([
-                    'user_id' => $cart->user_id,
-                    'brand' => $product->name,
-                    'category_id' => $product->category_id,
-                    'type' => 'Purchased'
-                ]);
+                $recommendation = Recommendation::where('user_id', $cart->user_id)->where('product_id', $product->id)->get();
+                
+                if(count($recommendation) == 0) {
+                    Recommendation::create([
+                        'user_id' => $cart->user_id,
+                        'product_id' => $product->id,
+                        'score' => 1
+                    ]);
+                }
             }
         }
 

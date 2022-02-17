@@ -37,7 +37,7 @@ class CartController extends Controller
         ]);
 
         $product = Product::where('id', $request->input('product_id'))->first();
-        storeRecommendation($product, 'Added to cart');
+        storeRecommendation($product);
 
         return 'product added to cart';
     }
@@ -81,7 +81,7 @@ class CartController extends Controller
 
         foreach($cart->cartItems as $item) {
             $product = Product::where('id', $item->id)->first();
-            storeRecommendation($product, 'Checkout');
+            storeRecommendation($product);
         }
 
         $cart->update([

@@ -16,13 +16,12 @@ class CreateRecommendationsTable extends Migration
         Schema::create('recommendations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('category_id');
-            $table->string('brand');
-            $table->string('type');
+            $table->unsignedBigInteger('product_id');
+            $table->integer('score');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
