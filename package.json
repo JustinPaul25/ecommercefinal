@@ -22,6 +22,7 @@
     },
     "dependencies": {
         "@hennge/vue3-pagination": "^1.0.17",
+        "@stripe/stripe-js": "^1.23.0",
         "vue": "^3.2.29",
         "vue-loader": "^17.0.0",
         "vue-sweetalert2": "^5.0.2",

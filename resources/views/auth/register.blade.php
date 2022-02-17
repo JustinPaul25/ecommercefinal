@@ -2,7 +2,7 @@
     <x-auth-card class="bg-red-600">
         <x-slot name="logo">
             <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                <img class="h-18 w-18" src="{{ asset('img/ming-logo.png') }}" alt="Workflow">
             </a>
         </x-slot>
 
@@ -17,6 +17,18 @@
                 <x-label for="name" :value="__('Name')" />
 
                 <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+            </div>
+
+            <div class="mt-4">
+                <x-label for="city" :value="__('City')" />
+
+                <x-input id="city" class="block mt-1 w-full" type="text" name="city" :value="old('city')" required autofocus />
+            </div>
+
+            <div class="mt-4">
+                <x-label for="brgy" :value="__('Brgy.')" />
+
+                <x-input id="brgy" class="block mt-1 w-full" type="text" name="brgy" :value="old('brgy')" required autofocus />
             </div>
 
             <!-- Email Address -->
@@ -46,11 +58,11 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
+                <a class="underline text-sm text-orange-600 hover:text-orange-900" href="{{ route('login') }}">
                     {{ __('Already registered?') }}
                 </a>
 
-                <x-button class="ml-4">
+                <x-button class="ml-4 bg-orange-600 hover:bg-orange-900">
                     {{ __('Register') }}
                 </x-button>
             </div>

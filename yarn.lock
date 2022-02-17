@@ -931,6 +931,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     "fastq" "^1.6.0"
 
+"@stripe/stripe-js@^1.23.0":
+  "integrity" "sha512-+7w4rVs71Fk8/8uzyzQB5GotHSH9mjOjxM3EYDq/3MR3I2ewELHtvWVMOqfS/9WSKCaKv7h7eFLsMZGpK5jApQ=="
+  "resolved" "https://registry.npmjs.org/@stripe/stripe-js/-/stripe-js-1.23.0.tgz"
+  "version" "1.23.0"
+
 "@tailwindcss/forms@^0.4.0":
   "integrity" "sha512-DeaQBx6EgEeuZPQACvC+mKneJsD8am1uiJugjgQK1+/Vt+Ai0GpFBC2T2fqnUad71WgOxyrZPE6BG1VaI6YqfQ=="
   "resolved" "https://registry.npmjs.org/@tailwindcss/forms/-/forms-0.4.0.tgz"

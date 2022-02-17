@@ -3,15 +3,12 @@
     <div class="flex items-center justify-between h-16">
         <div class="flex items-center">
         <div class="flex-shrink-0">
-            <img class="h-8 w-8" src="{{ asset('img/ming-logo.png') }}" alt="Workflow">
+            <a href="/"><img class="h-8 w-8" src="{{ asset('img/ming-logo.png') }}" alt="Workflow"></a>
         </div>
         <div class="hidden md:block">
             @if(auth()->user())
                 <div class="ml-10 flex items-baseline space-x-4">
                     @if(auth()->user()->isAdmin())
-                    <!-- Current: "bg-orange-700 text-white", Default: "text-white hover:bg-orange-500 hover:bg-opacity-75" -->
-                        <a href="#" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Dashboard</a>
-
                         <a href="{{ route('cashier') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Cashier</a>
 
                         <a href="{{ route('admin-products') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Products</a>
@@ -137,6 +134,10 @@
                         </a>
                 </div>
             @endif
+        @else
+            <a href="{{ route('login') }}" class="text-white inline-block no-underline hover:text-gray-500" href="#">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+            </a>
         @endif
         </div>
     </div>
@@ -150,8 +151,6 @@
             @if(auth()->user()->isCustomer())
                 customersds
             @else
-                <a href="#" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
-
                 <a href="{{ route('cashier') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Cashier</a>
 
                 <a href="{{ route('admin-products') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Products</a>
@@ -175,8 +174,8 @@
                     <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                 </div>
                 <div class="ml-3">
-                    <div class="text-base font-medium text-white">Tom Cook</div>
-                    <div class="text-sm font-medium text-orange-300">tom@example.com</div>
+                    <div class="text-base font-medium text-white">{{ auth()->user()->name }}</div>
+                    <div class="text-sm font-medium text-orange-300">{{ auth()->user()->email }}</div>
                 </div>
             </div>
             <div id="mobile-menu" class="hidden mt-3 px-2 space-y-1">

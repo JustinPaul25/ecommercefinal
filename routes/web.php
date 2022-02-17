@@ -15,6 +15,7 @@ use App\Http\Controllers\NewArrivalController;
 use App\Http\Controllers\ProductViewController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\LoginRedirectController;
+use App\Http\Controllers\OnlinePaymentController;
 use App\Http\Controllers\RecommendationController;
 
 /*
@@ -115,5 +116,9 @@ Route::post('/add-recommendation', [RecommendationController::class, 'store'])->
 Route::get('/print-daily/{date}', [PrintController::class, 'dateReport'])->middleware(['auth']);
 Route::get('/print-monthly/{month}/{year}', [PrintController::class, 'monthReport'])->middleware(['auth']);
 Route::get('/print-yearly/{year}', [PrintController::class, 'yearReport'])->middleware(['auth']);
+
+//ONLINE PAYMENT
+Route::get('/user/setup-intent', [OnlinePaymentController::class, 'getSetupIntent'])->middleware(['auth']);
+Route::post('/my-cart-checkout-mastercard', [OnlinePaymentController::class, 'checkout'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';
