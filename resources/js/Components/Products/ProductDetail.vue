@@ -113,7 +113,12 @@
         },
         methods: {
             roundRating(rate) {
-                return (Math.round(parseFloat(rate) * 10) / 10)
+                var rate = Math.round(parseFloat(rate) * 10) / 10
+                if(Number.isNaN(rate)) {
+                    return 0
+                } else {
+                    return rate
+                }
             },
             checkQuantity() {
                 return (this.data < this.pcs || this.pcs == 0)

@@ -85,7 +85,6 @@
     },
     methods: {
         openProductReview(product) {
-            this.cart = product.id
             this.id = product.product.id
             this.name = product.product.name
             this.isOpen = false
@@ -97,6 +96,7 @@
         },
         openModal(cart) {
             console.log(cart)
+            this.cart = cart.id
             this.isOpen = true
             this.items = cart
             this.totalPrice = this.calculateTotal(cart.orders)

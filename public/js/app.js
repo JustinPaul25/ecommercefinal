@@ -20916,7 +20916,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     openProductReview: function openProductReview(product) {
-      this.cart = product.id;
       this.id = product.product.id;
       this.name = product.product.name;
       this.isOpen = false;
@@ -20932,6 +20931,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     openModal: function openModal(cart) {
       console.log(cart);
+      this.cart = cart.id;
       this.isOpen = true;
       this.items = cart;
       this.totalPrice = this.calculateTotal(cart.orders);
@@ -21920,7 +21920,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     roundRating: function roundRating(rate) {
-      return Math.round(parseFloat(rate) * 10) / 10;
+      var rate = Math.round(parseFloat(rate) * 10) / 10;
+
+      if (Number.isNaN(rate)) {
+        return 0;
+      } else {
+        return rate;
+      }
     },
     checkQuantity: function checkQuantity() {
       return this.data < this.pcs || this.pcs == 0;
@@ -22115,6 +22121,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }, 200)
   },
   methods: {
+    roundRating: function roundRating(rate) {
+      var rate = Math.round(parseFloat(rate) * 10) / 10;
+
+      if (Number.isNaN(rate)) {
+        return 0;
+      } else {
+        return rate;
+      }
+    },
     addToCart: function addToCart(product) {
       var _this = this;
 
@@ -22276,11 +22291,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     getReviews: function getReviews() {
+      var _this = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _context.next = 2;
+                return axios.get("/reviews/".concat(_this.product.id)).then(function (response) {
+                  _this.reviews = response.data.data;
+                });
+
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -22288,6 +22311,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     }
+  },
+  created: function created() {
+    this.getReviews();
   }
 });
 
@@ -27251,31 +27277,31 @@ var _hoisted_19 = {
 var _hoisted_20 = {
   "class": "text-base text-gray-800"
 };
+var _hoisted_21 = {
+  "class": "flex items-center gap-x-1"
+};
 
-var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
-  "class": "flex"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
-  "aria-hidden": "true",
-  focusable: "false",
-  "data-prefix": "fas",
-  "data-icon": "star",
-  "class": "w-6 text-yellow-300 mr-1",
-  role: "img",
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 576 512"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
-  fill: "currentColor",
-  d: "M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"
-})])]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "4.1")])], -1
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "text-yellow-300 fas fa-star"
+}, null, -1
 /* HOISTED */
 );
 
-var _hoisted_22 = {
+var _hoisted_23 = {
+  "class": "flex items-center gap-x-1"
+};
+var _hoisted_24 = {
+  "class": "text-orange-600"
+};
+var _hoisted_25 = {
+  "class": "text-gray-600"
+};
+var _hoisted_26 = {
   "class": "flex flex-col xl:flex-row justify-between"
 };
-var _hoisted_23 = ["onClick"];
+var _hoisted_27 = ["onClick"];
 
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   "class": "h-5 w-5 mr-1",
   fill: "none",
@@ -27290,12 +27316,12 @@ var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add to cart ");
+var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add to cart ");
 
-var _hoisted_26 = [_hoisted_24, _hoisted_25];
-var _hoisted_27 = ["href"];
+var _hoisted_30 = [_hoisted_28, _hoisted_29];
+var _hoisted_31 = ["href"];
 
-var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   "class": "h-5 w-5 mr-1",
   viewBox: "0 0 20 20",
@@ -27308,9 +27334,9 @@ var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" View Details ");
+var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" View Details ");
 
-var _hoisted_30 = [_hoisted_28, _hoisted_29];
+var _hoisted_34 = [_hoisted_32, _hoisted_33];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("loading");
 
@@ -27367,20 +27393,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_20, " ₱ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product.price), 1
     /* TEXT */
-    ), _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [$options.isLoggedIn() ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.roundRating(product.rating.rating)), 1
+    /* TEXT */
+    )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product.rating.count) + " Reviews", 1
+    /* TEXT */
+    )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product.stock) + " pcs. Remaining", 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [$options.isLoggedIn() ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: 0,
       onClick: function onClick($event) {
         return $options.addToCart(product);
       },
       "class": "bg-gradient-to-r from-orange-600 to-pink-500 rounded-full py-2 px-4 my-2 text-sm text-white hover:bg-orange-600 hover:from-orange-600 hover:to-orange-600 flex flex-row justify-center"
-    }, _hoisted_26, 8
-    /* PROPS */
-    , _hoisted_23)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      href: "/product/".concat(product.id),
-      "class": "bg-orange-600 rounded-full py-2 px-4 my-2 text-sm text-white hover:bg-orange-700 flex flex-row justify-center"
     }, _hoisted_30, 8
     /* PROPS */
-    , _hoisted_27)])])]);
+    , _hoisted_27)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: "/product/".concat(product.id),
+      "class": "bg-orange-600 rounded-full py-2 px-4 my-2 text-sm text-white hover:bg-orange-700 flex flex-row justify-center"
+    }, _hoisted_34, 8
+    /* PROPS */
+    , _hoisted_31)])])]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.pagination != [] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_paginate, {
@@ -27412,12 +27444,83 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   "class": "bg-gray-50"
 };
+var _hoisted_2 = {
+  "class": "max-w-7xl mx-auto py-12 px-4 divide-y divide-gray-200 sm:px-6 lg:py-16 lg:px-8"
+};
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"max-w-7xl mx-auto py-12 px-4 divide-y divide-gray-200 sm:px-6 lg:py-16 lg:px-8\"><h2 class=\"text-3xl font-extrabold text-gray-900\">Comments and Rating</h2><div class=\"mt-8\"><dl class=\"divide-y divide-gray-200\"><div class=\"pt-6 pb-8 md:grid md:grid-cols-12 md:gap-8\"><dt class=\"text-base font-medium text-gray-900 md:col-span-5\"> What&#39;s the best thing about Switzerland? <ul class=\"flex items-center gap-x-1\"><li><i class=\"text-yellow-300 fas fa-star\"></i></li><li><i class=\"text-yellow-300 fas fa-star\"></i></li><li><i class=\"text-yellow-300 fas fa-star\"></i></li><li><i class=\"text-yellow-300 fas fa-star\"></i></li><li><i class=\"text-yellow-300 far fa-star\"></i></li></ul></dt><dd class=\"mt-2 md:mt-0 md:col-span-7\"><p class=\"text-base text-gray-500\">I don&#39;t know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.</p></dd></div></dl></div></div>", 1);
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  "class": "text-3xl font-extrabold text-gray-900"
+}, "Comments and Rating", -1
+/* HOISTED */
+);
 
-var _hoisted_3 = [_hoisted_2];
+var _hoisted_4 = {
+  "class": "p-8"
+};
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  id: "reviews-heading",
+  "class": "sr-only"
+}, "Reviews", -1
+/* HOISTED */
+);
+
+var _hoisted_6 = {
+  "class": "flex flex-col sm:flex-row"
+};
+var _hoisted_7 = {
+  "class": "mt-6 order-2 sm:mt-0 sm:ml-16"
+};
+var _hoisted_8 = {
+  "class": "mt-3 space-y-6 text-sm text-gray-600"
+};
+var _hoisted_9 = {
+  "class": "order-1 flex items-center sm:flex-col sm:items-start"
+};
+var _hoisted_10 = ["src"];
+var _hoisted_11 = {
+  "class": "ml-4 sm:ml-0 sm:mt-4"
+};
+var _hoisted_12 = {
+  "class": "text-sm font-medium text-gray-900"
+};
+var _hoisted_13 = {
+  "class": "mt-2 flex items-center"
+};
+
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+  "class": "text-orange-600 h-5 w-5 flex-shrink-0 mr-2",
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 20 20",
+  fill: "currentColor",
+  "aria-hidden": "true"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+  d: "M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+})], -1
+/* HOISTED */
+);
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, _hoisted_3);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_5, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.reviews, function (review) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: review,
+      "class": "space-y-10"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(review.message), 1
+    /* TEXT */
+    )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      src: review.user.profilePicture ? review.user.profilePicture : 'https://cdn.pixabay.com/photo/2014/04/03/10/32/businessman-310819_960_720.png',
+      alt: "Mark Edwards.",
+      "class": "h-12 w-12 rounded-full"
+    }, null, 8
+    /* PROPS */
+    , _hoisted_10), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(review.user.name), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(review.stars) + " of 5 Stars ", 1
+    /* TEXT */
+    )])])])])]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])])])]);
 }
 
 /***/ }),
