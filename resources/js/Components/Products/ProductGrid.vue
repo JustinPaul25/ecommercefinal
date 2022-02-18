@@ -159,6 +159,10 @@
                 await axios.post('/add-to-cart', form)
                 .then(response => {
                     this.isLoading = false
+                        this.$swal.fire({
+                        title: "Added to cart",
+                        confirmButtonColor: "#ea580c"
+                    })
                 })
             },
             isLoggedIn() {

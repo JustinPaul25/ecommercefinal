@@ -188,6 +188,10 @@
           }).then( function(){
               this.items = response.data.data
               this.isLoading = false
+              this.$swal.fire({
+                  title: "Cart Checkout",
+                  confirmButtonColor: "#ea580c"
+              })
           }.bind(this));
       },
       async checkOut() {
@@ -196,6 +200,10 @@
         .then(response => {
           this.items = response.data.data
           this.isLoading = false
+          this.$swal.fire({
+              title: "Cart Checkout",
+              confirmButtonColor: "#ea580c"
+          })
         })
       }
     },

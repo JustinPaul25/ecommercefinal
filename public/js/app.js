@@ -20398,6 +20398,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }).then(function () {
                   this.items = response.data.data;
                   this.isLoading = false;
+                  this.$swal.fire({
+                    title: "Cart Checkout",
+                    confirmButtonColor: "#ea580c"
+                  });
                 }.bind(_this6));
 
               case 1:
@@ -20421,6 +20425,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.get("/my-cart-checkout").then(function (response) {
                   _this7.items = response.data.data;
                   _this7.isLoading = false;
+
+                  _this7.$swal.fire({
+                    title: "Cart Checkout",
+                    confirmButtonColor: "#ea580c"
+                  });
                 });
 
               case 3:
@@ -22173,6 +22182,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 4;
                 return axios.post('/add-to-cart', form).then(function (response) {
                   _this2.isLoading = false;
+
+                  _this2.$swal.fire({
+                    title: "Added to cart",
+                    confirmButtonColor: "#ea580c"
+                  });
                 });
 
               case 4:
