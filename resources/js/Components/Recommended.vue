@@ -1,5 +1,5 @@
 <template>
-    <div v-if="hotDeals.length != 0" class="px-12 pt-4">
+    <div v-if="recommended.length != 0" class="px-12 pt-4">
         <loading :isLoading="isLoading"></loading>
         <div class="my-20">
             <div class="flex flex-row justify-between my-5">
@@ -12,7 +12,7 @@
                 </a>
             </div>
             <div class="grid grid-flow-row grid-cols-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-                <div v-for="hotdeal in hotDeals" :key="hotdeal" class="shadow-lg rounded-lg">
+                <div v-for="hotdeal in recommended" :key="hotdeal" class="shadow-lg rounded-lg">
                     <a href="#">
                         <img :src="generateSrc(hotdeal.images)" class="rounded-tl-lg rounded-tr-lg" />
                     </a>
@@ -50,6 +50,13 @@
             </div>
         </div> 
     </div>
+    <div v-else class="px-12 pt-4">
+        <div class="my-20">
+            <div class="flex flex-row justify-between my-5">
+                <h2 class="text-3xl">No Recommended Products for You</h2>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -61,7 +68,7 @@ export default {
     },
     data() {
         return {
-            hotDeals: [],
+            recommended: [],
             isLoading: false
         }
     },
@@ -77,10 +84,10 @@ export default {
         isLoggedIn() {
             return this.app.logged_in
         },
-        async getHotDeals() {
+        async getrecommended() {
             await axios.get('/recommendations')
             .then(response => {
-                this.hotDeals = response.data.data
+                this.recommended = response.data.data
             })
         },
         generateSrc(images) {
@@ -128,11 +135,15 @@ export default {
             await axios.post('/add-to-cart', form)
             .then(response => {
                 this.isLoading = false
+                this.$swal.fire({
+                    title: "Added to cart",
+                    confirmButtonColor: "#ea580c"
+                })
             })
         }
     },
     created() {
-        this.getHotDeals()
+        this.getrecommended()
     }
 };
 </script>

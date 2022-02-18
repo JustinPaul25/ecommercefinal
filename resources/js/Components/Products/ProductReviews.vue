@@ -38,7 +38,17 @@
 <script>
     export default {
         props: {
-            data: Object
+            product: Object
+        },
+        data() {
+            return {
+                reviews: []
+            }
+        },
+        methods: {
+            async getReviews() {
+                
+            }
         }
     }
 </script>

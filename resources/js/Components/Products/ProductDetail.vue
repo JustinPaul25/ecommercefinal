@@ -79,7 +79,6 @@
             </div>
             </div>
         </div>
-        <related-products/>
         <product-reviews :product="data"/>
     </div>
 </template>

@@ -15,7 +15,7 @@
         </div>
     </div>
     @if(auth()->user())
-        <recomendations></recomendations>
+        <recommended></recommended>
     @endif
     <featured-items></featured-items>
     <new-arrival-items></new-arrival-items>
