@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Sold;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class OnlinePaymentController extends Controller
         $payment = 0;
 
         foreach($cart->cartItems as $item) {
-            $product = Product::where('id', $item->id)->first();
+            $product = Product::where('id', $item->product_id)->first();
             $payment += $item->quantity*$product->price;
         }
 
@@ -32,8 +33,20 @@ class OnlinePaymentController extends Controller
         );
 
         foreach($cart->cartItems as $item) {
-            $product = Product::where('id', $item->id)->first();
+            $product = Product::where('id', $item->product_id)->first();
             storeRecommendation($product);
+
+            $product->update([
+                'stock' => ($product->stock - $item->quantity),
+                'sold' => ($product->sold + $item->quantity)
+            ]);
+
+            Sold::create([
+                'product_id' => $item->product_id,
+                'cart_id' => $cart->id,
+                'quantity' => $item->quantity,
+                'total_price' => $item->quantity*$product->price
+            ]);
         }
 
         $cart->update([

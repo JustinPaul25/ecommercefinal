@@ -15,7 +15,7 @@
         <script src="https://js.stripe.com/v3/"></script>
     </head>
     <body class="antialiased">
-        <div id="app">
+        <div id="app" class="bg-orange-200">
             <div class="min-h-full">
                 @if(auth()->user() && auth()->user()->isAdmin())
                     @include('vue-layouts.backend-nav')
@@ -23,8 +23,8 @@
                 @else
                     @include('vue-layouts.backend-nav')
                     @yield('content')
-                    @include('vue-layouts.footer')
                 @endif
+                @include('vue-layouts.footer')
             </div>
         </div>
         <script>

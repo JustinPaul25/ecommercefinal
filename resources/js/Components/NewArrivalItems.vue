@@ -1,53 +1,34 @@
 <template>
     <div v-if="newArrivals.length != 0" class="px-12 pt-4">
-        <div class="my-20">
-            <div class="flex flex-row justify-between my-5">
-                <h2 class="text-3xl">New Arrivals</h2>
-                <a href="/products/new-arrivals" class="flex flex-row text-lg hover:text-orange-600">
-                    View All
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-                </a>
-            </div>
-            <div class="grid grid-flow-row grid-cols-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-                <div v-for="newarrival in newArrivals" :key="newarrival" class="shadow-lg rounded-lg">
-                    <a href="#">
-                        <img :src="generateSrc(newarrival.images)" class="rounded-tl-lg rounded-tr-lg" />
-                    </a>
-                    <div class="p-5">
-                        <h3 class="font-bold"><a href="#">{{ newarrival.name }}</a></h3>
-                        <p>₱ {{ newarrival.price }}</p>
-                        <ul class="flex items-center gap-x-1">
-                            <li>
-                                <i class="text-yellow-300 fas fa-star"></i> {{ roundRating(newarrival.rating.rating) }}
-                            </li>
-                        </ul>
-                        <ul class="flex items-center gap-x-1">
-                            <li>
-                                <span class="text-orange-600">{{ newarrival.rating.count }} Reviews</span>
-                            </li>
-                        </ul>
-                        <p class="text-orange-600">{{ newarrival.category.name }}</p>
-                        <p class="text-gray-600">{{ newarrival.stock }} pcs. Remaining</p>
-                    <div class="flex flex-col xl:flex-row justify-between">
-                        <button @click="addToCart(newarrival)" v-if="isLoggedIn()" class="bg-gradient-to-r from-orange-600 to-pink-500 rounded-full py-2 px-4 my-2 text-sm text-white hover:bg-orange-600 hover:from-orange-600 hover:to-orange-600 flex flex-row justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                            Add to cart
-                        </button>
-                        <a class="bg-orange-600 rounded-full py-2 px-4 my-2 text-sm text-white hover:bg-orange-700 flex flex-row justify-center" :href="`/product/${newarrival.id}`">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                            View Details
-                        </a>
-                    </div>
+        <loading :isLoading="isLoading"></loading>
+        <div class="bg-orange-200">
+            <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+                <div class="flex items-center justify-between space-x-4">
+                <h2 class="text-xl font-bold text-gray-900">New Arrivals</h2>
+                <a href="/products/new-arrivals" class="whitespace-nowrap text-sm font-medium text-indigo-600 hover:text-indigo-500">View all<span aria-hidden="true"> &rarr;</span></a>
+                </div>
+                <div class="mt-6 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
+                    <div v-for="newArrival in newArrivals" :key="newArrival" class="relative group">
+                        <div class="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden bg-gray-100">
+                        <img :src="generateSrc(newArrival.images)" alt="Payment application dashboard screenshot with transaction table, financial highlights, and main clients on colorful purple background." class="object-center object-cover">
+                        <div class="flex items-end opacity-0 p-4 group-hover:opacity-100" aria-hidden="true">
+                            <a :href="`/product/${newArrival.id}`" class="w-full bg-white bg-opacity-75 backdrop-filter backdrop-blur py-2 px-4 rounded-md text-sm font-medium text-orange-600 text-center">View Product</a>
+                        </div>
+                        </div>
+                        <div class="mt-4 flex items-center justify-between text-base font-medium text-gray-900 space-x-8">
+                        <h3>
+                            <a :href="`/product/${newArrival.id}`">
+                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                {{ newArrival.name }}
+                            </a>
+                        </h3>
+                        <p>₱ {{ newArrival.price }}</p>
+                        </div>
+                        <p class="mt-1 text-sm text-gray-500">{{ newArrival.category.name }}</p>
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
 </template>
 

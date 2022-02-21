@@ -15,6 +15,7 @@ class AddStatusToCartsTable extends Migration
     {
         Schema::table('carts', function (Blueprint $table) {
             $table->string('status');
+            $table->string('method');
         });
     }
 

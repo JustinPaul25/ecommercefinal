@@ -1,6 +1,6 @@
 <template>
     <div class="w-full">
-        <loading :isLoading="isLoading"></loading>
+        <loading-spinner :isLoading="isLoading"></loading-spinner>
         <div class="h-full flex flex-col bg-white shadow-xl w-full">
           <div class="w-full flex-1 py-6 overflow-y-auto px-4 sm:px-6">
             <div class="flex items-start justify-between">
@@ -77,12 +77,12 @@
 </template>
 
 <script>
-  import Loading from "../LoadingSpinner.vue"
+  import LoadingSpinner from "../LoadingSpinner.vue";
   import { loadStripe } from '@stripe/stripe-js';
 
   export default {
-    component: {
-      Loading
+    components: {
+      LoadingSpinner
     },
     data() {
       return {
@@ -182,11 +182,12 @@
         // })
       },
       async savePayment(method) {
+          this.isLoading = true
           axios.post(`/my-cart-checkout-mastercard`, {
               total: this.reduceTotal(),
               payment_method: method
-          }).then( function(){
-              this.items = response.data.data
+          }).then( function(response){
+              this.items = []
               this.isLoading = false
               this.$swal.fire({
                   title: "Cart Checkout",
@@ -205,15 +206,20 @@
               confirmButtonColor: "#ea580c"
           })
         })
-      }
+      },
+      async setupIntent () {
+         this.isLoading = true
+        await axios.get(`/user/setup-intent`)
+        .then( function( response ){
+            console.log(response);
+            this.intentToken = response.data;
+            this.isLoading = false
+        }.bind(this));
+        }
     },
     created() {
       this.getItems()
-      axios.get(`/user/setup-intent`)
-      .then( function( response ){
-          console.log(response);
-          this.intentToken = response.data;
-      }.bind(this));
+      this.setupIntent()
     }
   }
 </script>
