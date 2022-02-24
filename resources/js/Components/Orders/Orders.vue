@@ -1,4 +1,4 @@
-<template>
+s<template>
     <div class="bg-white shadow overflow-hidden sm:rounded-md">
         <loading :isLoading="isLoading"></loading>
         <items-modal :datas="items" :isOpen="isOpen" :totalPrice="totalPrice" @closeModal="isOpen = false"/>
@@ -32,6 +32,7 @@
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Buyer</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
                                 <th scope="col" class="relative px-6 py-3">
@@ -41,14 +42,14 @@
                         </thead>
                         <tbody>
                             <!-- Odd row -->
-                            <tr v-for="order in orders" :key="order" @click="openModal(order)" class="bg-white">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ order.id }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ order.user.name }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ order.status }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₱ {{ calculateTotal(order.orders)}}</td>
+                            <tr v-for="order in orders" :key="order" class="bg-white">
+                                <td @click="openModal(order)" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ order.id }}</td>
+                                <td @click="openModal(order)" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">{{ order.sold_to }}</td>
+                                <td @click="openModal(order)" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">{{ order.method }}</td>
+                                <td @click="openModal(order)" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">{{ order.status }}</td>
+                                <td @click="openModal(order)" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₱ {{ calculateTotal(order.orders)}}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button v-if="order.status != 'Item Sold'" @click="changeStatus(order)" href="#" class="text-indigo-600 hover:text-indigo-900">{{ buttonLabel(order) }}</button>
-                                    <button v-else class="text-indigo-600 hover:text-indigo-900">{{ buttonLabel(order) }}</button>
+                                    <button v-if="order.status != 'sold'" @click="changeStatus(order)" href="#" class="text-indigo-600 hover:text-indigo-900">{{ buttonLabel(order) }}</button>
                                 </td>
                             </tr>
 
@@ -84,26 +85,20 @@
         },
         methods: {
             buttonLabel(order) {
-                if(order.status == "Item/s Getting Ready") {
-                    return "Item Prepared"
+                if(order.status == "processing") {
+                    return "Mark as Ready for Pick Up"
                 }
-                if(order.status == "Prepare Item") {
-                    return "Ready for Pick-up"
-                }
-                if(order.status == "Ready for Pick-up") {
-                    return "Item Sold"
+                if(order.status == "ready for pick-up") {
+                    return "Mark as Sold"
                 }
             },
             async changeStatus(order) {
                 this.isLoading = true
-                if(order.status == "Item/s Getting Ready") {
-                    var status = "Prepare Item"
+                if(order.status == "processing") {
+                    var status = "ready for pick-up"
                 }
-                if(order.status == "Prepare Item") {
-                    var status = "Ready for Pick-up"
-                }
-                if(order.status == "Ready for Pick-up") {
-                    var status = "Item Sold"
+                if(order.status == "ready for pick-up") {
+                    var status = "sold"
                 }
 
                 await axios.put(`/cart-change-status/${order.id}`, {

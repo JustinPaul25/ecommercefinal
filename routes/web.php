@@ -103,6 +103,7 @@ Route::get('/administrator/orders', [OrderController::class, 'list'])->middlewar
 Route::get('/all-orders', [OrderController::class, 'allOrders'])->middleware(['auth']);
 Route::get('/orders', [OrderController::class, 'customerOrders'])->middleware(['auth'])->name('frontend-orders');
 Route::put('/cart-change-status/{cart}', [OrderController::class, 'cartChangeStatus'])->middleware(['auth']);
+Route::get('/cancel-order/{cart}', [OrderController::class, 'cancelOrder'])->middleware(['auth']);
 
 //REVIEWS
 Route::post('/review', [ReviewsController::class, 'store'])->middleware(['auth']);

@@ -85,7 +85,7 @@ export default {
     },
     methods: {
         isCustomer() {
-          if(this.datas.status == 'Item Sold') {
+          if(this.datas.status == 'sold') {
             return this.app.is_customer
           } else {
             return false

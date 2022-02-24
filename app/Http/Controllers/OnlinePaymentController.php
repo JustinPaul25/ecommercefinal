@@ -50,7 +50,7 @@ class OnlinePaymentController extends Controller
         }
 
         $cart->update([
-            'status' => 'Sold',
+            'status' => 'processing',
             'method' => 'e-payment'
         ]);
 

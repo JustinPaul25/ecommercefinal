@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Types\RoleType;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
@@ -50,6 +51,12 @@ class RegisteredUserController extends Controller
             'phone_no' => $request->phone_no,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+        ]);
+
+        Notification::create([
+            'user_id' => $user->id,
+            'message' => 0,
+            'order' => 0
         ]);
 
         $user->assignRole(RoleType::CUSTOMER);

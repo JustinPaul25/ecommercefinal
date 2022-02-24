@@ -86,7 +86,7 @@ class CartController extends Controller
         }
 
         $cart->update([
-            'status' => 'pending',
+            'status' => 'processing',
             'method' => 'pick-up'
         ]);
 
