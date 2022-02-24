@@ -23,6 +23,7 @@ import Cashier from './Components/Cashier/Cashier'
 import Report from './Components/Reports/Reports'
 import Settings from './Components/Settings'
 import ChangePassword from './Components/ChangePassword'
+import UserIcons from './Components/UserIcons'
 
 const app = createApp({
     store,
@@ -42,7 +43,8 @@ const app = createApp({
         Report,
         Recommended,
         Settings,
-        ChangePassword
+        ChangePassword,
+        UserIcons
     }
 })
 app.mixin(global)

@@ -24,6 +24,7 @@ class CartController extends Controller
         if(count($cart) == 0) {
             $myCart = Cart::create([
                 'status' => 'unprocess',
+                'sold_to' => $user->name,
                 'user_id' => $user->id
             ]);
         } else {
@@ -85,7 +86,8 @@ class CartController extends Controller
         }
 
         $cart->update([
-            'status' => 'Item/s Getting Ready'
+            'status' => 'pending',
+            'method' => 'pick-up'
         ]);
 
         $items = [];

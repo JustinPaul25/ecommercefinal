@@ -1,56 +1,73 @@
 <template>
-    <div class="w-full">
-        <loading-spinner :isLoading="isLoading"></loading-spinner>
-        <div class="h-full flex flex-col bg-white shadow-xl w-full">
-          <div class="w-full flex-1 py-6 overflow-y-auto px-4 sm:px-6">
-            <div class="flex items-start justify-between">
-              <h2 class="text-lg font-bold text-gray-900" id="slide-over-title">Shopping cart</h2>
-            </div>
+    <div class="bg-white">
+      <loading-spinner :isLoading="isLoading"></loading-spinner>
+      <div class="max-w-7xl mx-auto px-4 pt-4 pb-16 sm:px-6 sm:pt-8 sm:pb-24 lg:px-8 xl:px-2 xl:pt-14">
+        <h1 class="sr-only">Checkout</h1>
 
-            <div class="mt-8">
-              <div class="flow-root">
-                <ul role="list" class="-my-6 divide-y divide-gray-200">
-                  <li v-for="item in items" :key="item" class="py-6 flex">
-                    <div class="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
-                      <img :src="generateSrc(item.product.images)" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="w-full h-full object-center object-cover">
-                    </div>
+        <div class="max-w-lg mx-auto grid grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
+          <div class="max-w-lg mx-auto w-full">
+            <div class="w-full flex-1 py-6 overflow-y-auto px-4 sm:px-6">
+              <div class="flex items-start justify-between">
+                <h2 class="text-lg font-bold text-gray-900" id="slide-over-title">Shopping cart</h2>
+              </div>
 
-                    <div class="ml-4 flex-1 flex flex-col">
-                      <div>
-                        <div class="flex justify-between text-base font-medium text-gray-900">
-                          <h3>
-                            <a href="#"> {{ item.product.name }} </a>
-                          </h3>
-                          <p class="ml-4 text-gray-900">₱ {{ (parseFloat(item.product.price)*item.quantity) }}</p>
-                        </div>
-                        <p class="mt-1 text-sm text-gray-500">₱ {{ item.product.price }}</p>
+              <div class="mt-8">
+                <div class="flow-root">
+                  <ul role="list" class="-my-6 divide-y divide-gray-200">
+                    <li v-for="item in items" :key="item" class="py-6 flex">
+                      <div class="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
+                        <img :src="generateSrc(item.product.images)" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="w-full h-full object-center object-cover">
                       </div>
-                      <div class="flex-1 flex items-end justify-between text-sm">
-                        <p class="text-gray-500">Qty {{ item.quantity }}</p>
 
-                        <div class="flex">
-                          <button @click="removeItem(item.id)" class="font-medium text-orange-600 hover:text-orange-500">Remove</button>
+                      <div class="ml-4 flex-1 flex flex-col">
+                        <div>
+                          <div class="flex justify-between text-base font-medium text-gray-900">
+                            <h3>
+                              <a href="#"> {{ item.product.name }} </a>
+                            </h3>
+                            <p class="ml-4 text-gray-900">₱ {{ (parseFloat(item.product.price)*item.quantity) }}</p>
+                          </div>
+                          <p class="mt-1 text-sm text-gray-500">₱ {{ item.product.price }}</p>
+                        </div>
+                        <div class="flex-1 flex items-end justify-between text-sm">
+                          <p class="text-gray-500">Qty {{ item.quantity }}</p>
+
+                          <div class="flex">
+                            <button @click="removeItem(item.id)" class="font-medium text-orange-600 hover:text-orange-500">Remove</button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </li>
+                    </li>
 
-                  <!-- More products... -->
-                </ul>
+                    <!-- More products... -->
+                  </ul>
+                </div>
+              </div>
+              <div class="mt-8 flex justify-between text-base font-medium text-gray-900">
+                <p class="text-xl font-bold">Total</p>
+                <p class="text-2xl font-bold">₱ {{ reduceTotal() }}</p>
               </div>
             </div>
           </div>
 
-          <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
-            <div class="flex justify-between text-base font-medium text-gray-900">
-              <p>Total</p>
-              <p>₱ {{ reduceTotal() }}</p>
+          <div class="bg-orange-200 max-w-lg mx-auto rounded w-full">
+            <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
+              <p class="text-gray-900 mb-2 text-2xl tracking-normal leading-7">Pay Via</p>
+            <div class="sm:flex sm:flex-col sm:align-center">
+              <div v-if="!isCard" class="relative self-center mt-6 bg-gray-100 rounded-lg p-0.5 flex sm:mt-8">
+                <button @click="isCard = false" type="button" class="relative w-1/2 bg-indigo-600 border-gray-200 rounded-md shadow-sm py-2 text-sm font-medium text-white whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:z-10 sm:w-auto sm:px-8">Pick Up</button>
+                <button @click="isCard = true" type="button" class="ml-0.5 relative w-1/2 border border-transparent rounded-md py-2 text-sm font-medium text-gray-700 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:z-10 sm:w-auto sm:px-8">Master Card</button>
+              </div>
+              <div v-else class="relative self-center mt-6 bg-gray-100 rounded-lg p-0.5 flex sm:mt-8">
+                <button @click="isCard = false" type="button" class="ml-0.5 relative w-1/2 border border-transparent rounded-md py-2 text-sm font-medium text-gray-700 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:z-10 sm:w-auto sm:px-8">Pick Up</button>
+                <button @click="isCard = true" type="button" class="relative w-1/2 bg-indigo-600 border-gray-200 rounded-md shadow-sm py-2 text-sm font-medium text-white whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:z-10 sm:w-auto sm:px-8">Master Card</button>
+              </div>
             </div>
-            <div class="mt-6">
-              <a @click="checkOut()" class="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-orange-600 hover:bg-orange-700">Pick-Up</a>
+            <div v-if="!isCard" class="mt-6">
+              <a @click="checkOut()" class="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">Pick-Up</a>
             </div>
-            <div class="mt-6 flex justify-center">
-              <div class="md:w-1/3 lg:w-1/3 w-full px-4">
+            <div v-show="isCard" class="mt-6 flex justify-center">
+              <div class="w-full px-4">
                   <div class="w-full mx-auto">
                       <div class="flex flex-wrap">
                           <div class="w-full">
@@ -63,8 +80,8 @@
                   </div>
               </div>
             </div>
-            <div class="mt-6">
-              <a @click="onlinePaymantCheckout()" class="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-orange-600 hover:bg-orange-700">Pay Online</a>
+            <div v-if="isCard" class="mt-6">
+              <a @click="onlinePaymantCheckout()" class="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">Pay Online</a>
             </div>
             <div class="mt-6 flex justify-center text-sm text-center text-gray-500">
               <p>
@@ -72,7 +89,9 @@
               </p>
             </div>
           </div>
+          </div>
         </div>
+      </div>
     </div>
 </template>
 
@@ -86,6 +105,7 @@
     },
     data() {
       return {
+        isCard: false, 
         items: [],
         isLoading: false,
         stripe: {},

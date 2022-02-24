@@ -50,7 +50,8 @@ class OnlinePaymentController extends Controller
         }
 
         $cart->update([
-            'status' => 'Sold'
+            'status' => 'Sold',
+            'method' => 'e-payment'
         ]);
 
         return $stripeCharge;
