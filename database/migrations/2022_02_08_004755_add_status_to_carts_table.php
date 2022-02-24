@@ -15,7 +15,9 @@ class AddStatusToCartsTable extends Migration
     {
         Schema::table('carts', function (Blueprint $table) {
             $table->string('status');
-            $table->string('method');
+            $table->string('method')->nullable();
+            $table->string('sold_to')->nullable();
+            $table->dateTime('date_pickup')->nullable();
         });
     }
 

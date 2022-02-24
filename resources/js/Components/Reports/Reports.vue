@@ -3,8 +3,8 @@
         Print Reports
     </a>
     <div class="grid pt-12 lg:grid-cols-3 lg:gap-x-5 lg:gap-y-12 mb-4">
-        <div class="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-orange-600 focus-within:border-orange-600">
-            <label for="name" class="absolute -top-2 left-2 -mt-px inline-block px-1 bg-white text-xs font-medium text-gray-900">Filter By Month</label>
+        <div class="relative bg-white border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-orange-600 focus-within:border-orange-600">
+            <label for="name" class="absolute -top-2 left-2 -mt-px inline-block px-1 rounded bg-white text-xs font-medium text-gray-900">Filter By Month</label>
             <div class="mt-1 rounded-md shadow-sm -space-y-px">
                 <div>
                     <label for="country" class="sr-only">Month</label>
@@ -30,7 +30,7 @@
             </div>
       </div>
 
-      <div class="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-orange-600 focus-within:border-orange-600">
+      <div class="bg-white relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-orange-600 focus-within:border-orange-600">
             <div class="mt-1 rounded-md shadow-sm -space-y-px">
                 <div>
                     <div class="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-orange-600 focus-within:border-orange-600">
@@ -47,7 +47,7 @@
             </div>
       </div>
 
-      <div class="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-orange-600 focus-within:border-orange-600">
+      <div class="bg-white  relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-orange-600 focus-within:border-orange-600">
             <div class="mt-1 rounded-md shadow-sm -space-y-px">
                 <div>
                     <div class="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-orange-600 focus-within:border-orange-600">

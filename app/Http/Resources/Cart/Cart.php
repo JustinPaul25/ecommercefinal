@@ -20,6 +20,8 @@ class Cart extends JsonResource
             'id' => $this->id,
             'status' => $this->status,
             'user' => $this->user,
+            'sold_to' => $this->sold_to,
+            'method' => $this->method,
             'orders' => $this->getProducts($this->id)
         ];
     }

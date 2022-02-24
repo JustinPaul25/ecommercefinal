@@ -12,7 +12,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <!-- Replace with your content -->
         <div class="px-4 sm:px-0">
-            <div class="h-96">
+            <div class="pb-8">
                 <report />
             </div>
         </div>

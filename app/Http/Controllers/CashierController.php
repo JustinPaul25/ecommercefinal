@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Cart;
 use App\Models\Sold;
 use App\Models\Product;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
+use App\Http\Resources\Cart\Cart as CartResource;
+use App\Http\Resources\CartItem\CartItemCollection;
 
 class CashierController extends Controller
 {
     public function checkout(Request $request)
     {
         $myCart = Cart::create([
-            'status' => 'Walk In',
+            'status' => 'Sold',
+            'method' => 'walk-in',
+            'sold_to' => $request->input('customer'),
+            'date_pickup' => new Carbon(),
             'user_id' => 1
         ]);
 
@@ -39,6 +45,14 @@ class CashierController extends Controller
             ]);
         }
         
-        return;
+        return $myCart;
+    }
+
+    public function receipt(Cart $cart)
+    {
+        $data = new CartResource($cart);
+        $items = CartItem::where('cart_id', $cart->id)->with('product')->get();
+
+        return view('cashier-reciept', ['data' => $data, 'items' => $items]);
     }
 }

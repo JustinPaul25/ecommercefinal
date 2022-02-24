@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white">
+    <div class="bg-white pt-4">
         <loading :isLoading="isLoading"></loading>
         <div class="max-w-2xl mx-auto px-4 grid grid-cols-1 gap-y-16 gap-x-8 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid-cols-2">
             <div>
@@ -32,11 +32,15 @@
                                 </tbody>
                                 </table>
                             </div>
-                            <div class="bg-gray-50">
+                            <div class="bg-gray-50 mt-2">
                                 <div class="isolate -space-y-px rounded-md shadow-sm">
-                                    <div class="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                                    <div class="relative border bg-white rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                                        <label for="name" class="block text-xs font-medium text-gray-700">Customer Name</label>
+                                        <input v-model="customer" type="text" name="name" id="name" class="font-bold w-full block border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                                    </div>
+                                    <div class="relative bg-white border px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
                                         <label for="name" class="block text-xs font-medium text-gray-700">Cash</label>
-                                        <input v-model="cash" type="text" name="name" id="name" class="font-bold block border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                                        <input v-model="cash" type="text" name="name" id="name" class="font-bold block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
                                     </div>
                                     <div class="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
                                         <label for="job-title" class="block w-full text-xs font-medium text-gray-700">Change</label>
@@ -50,7 +54,7 @@
                                     </h2>
                                     <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                                     <div class="inline-flex rounded-md shadow">
-                                        <button @click="checkout()" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">Checkout</button>
+                                        <button @click="checkout()" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">Process Payment</button>
                                     </div>
                                     </div>
                                 </div>
@@ -79,7 +83,8 @@
                 cash: 0,
                 change: 0,
                 isLoading: false,
-                getProducts: false
+                getProducts: false,
+                customer: ''
             }
         },
         watch: {
@@ -99,14 +104,18 @@
                 return total
             },
             addToCart(product) {
-                this.$swal.fire({
+                window.alert(product.stock)
+                if(product.stock < 1) {
+                    this.$swal.fire('Item Out of stock')
+                } else {
+                    this.$swal.fire({
                     title: 'Number of Items',
                     input: 'number',
                     inputAttributes: {
                         autocapitalize: 'off'
                     },
                     showCancelButton: true,
-                    confirmButtonText: 'Add To Cart',
+                    confirmButtonText: 'Add Item',
                     confirmButtonColor: '#ea580c',
                     showLoaderOnConfirm: true,
                     preConfirm: (quantity) => {
@@ -128,11 +137,13 @@
                         
                     }
                 })
+                }
             },
             async checkout() {
                 this.isLoading = true
                 var form = {
-                    list: this.cart
+                    list: this.cart,
+                    customer: this.customer
                 }
                 await axios.post('/cashier-checkout', form)
                 .then(response => {
@@ -141,6 +152,7 @@
                     this.cart = []
                     this.cash = 0
                     this.total = 0
+                    window.open(`/receipt/${response.data.id}`, '_blank');
                 })
             }
         }

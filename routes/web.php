@@ -112,6 +112,7 @@ Route::get('/reviews/{product}', [ReviewsController::class, 'productReview']);
 
 //CASHIER
 Route::post('/cashier-checkout', [CashierController::class, 'checkout'])->middleware(['auth']);
+Route::get('/receipt/{cart}', [CashierController::class, 'receipt'])->middleware(['auth']);
 Route::get('/administrator/cashier', function () {
     return view('backend.cashier');
 })->middleware(['auth'])->name('cashier');
