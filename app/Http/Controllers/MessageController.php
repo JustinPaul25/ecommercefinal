@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Inquire\InquireCollection;
 use App\Models\Inquire;
+use App\Events\MessageSent;
 use App\Models\ReplyInquire;
 use Illuminate\Http\Request;
+use App\Http\Resources\Inquire\InquireCollection;
 
 class MessageController extends Controller
 {
@@ -27,7 +28,7 @@ class MessageController extends Controller
     public function storeReply(Request $request)
     {
         $user = auth()->user();
-        ReplyInquire::create([
+        $inquire = ReplyInquire::create([
             'message' => $request->input('message'),
             'inquire_id' => $request->input('inquire_id'),
             'user_id' => $user->id
@@ -51,12 +52,14 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
-        Inquire::create([
+        $inquire = Inquire::create([
             'message' => $request->input('message'),
             'product_id' => $request->input('product_id'),
             'user_id' => $user->id,
             'unseen' => '1'
         ]);
+
+        broadcast(new MessageSent($inquire))->toOthers();
 
         return 'successfully sent';
     }

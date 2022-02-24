@@ -20857,10 +20857,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       message: '',
       inquire: null,
       inquire_id: 0,
-      current_user: null
+      current_user: null,
+      inquires: this.datas
     };
   },
   methods: {
+    connect: function connect(id) {
+      window.Echo.join("testchannel").listen('MessageSent', function (e) {
+        console.log(e);
+      });
+    },
     sendReply: function sendReply() {
       var _this = this;
 
@@ -20889,10 +20895,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     selectInquire: function selectInquire(inquire) {
       this.inquire = inquire;
+    },
+    getInquires: function getInquires() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.get('/admin-inquires').then(function (response) {
+                  console.log(response);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   },
   created: function created() {
     this.current_user = this.app.current_user;
+    this.connect();
   }
 });
 
@@ -24717,7 +24743,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     isLoading: _ctx.isLoading
   }, null, 8
   /* PROPS */
-  , ["isLoading"]), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.datas, function (message) {
+  , ["isLoading"]), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.inquires, function (message) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("fieldset", {
       onClick: function onClick($event) {
         return $options.selectInquire(message);

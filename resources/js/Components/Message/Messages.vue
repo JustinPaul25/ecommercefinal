@@ -6,7 +6,7 @@
         </div>
         <div class="relative max-w-7xl mx-auto lg:grid lg:grid-cols-5">
             <div class="bg-gray-50 py-16 px-4 sm:px-6 lg:col-span-2 lg:px-8 lg:py-24 xl:pr-12">
-                <fieldset @click="selectInquire(message)" v-for="message in datas" :key="message" class="border-t border-b border-gray-200 hover:bg-gray-400">
+                <fieldset @click="selectInquire(message)" v-for="message in inquires" :key="message" class="border-t border-b border-gray-200 hover:bg-gray-400">
                     <legend class="sr-only">Questions</legend>
                     <div class="ml-2 divide-y divide-gray-200">
                         <div class="relative flex items-start py-4">
@@ -85,10 +85,17 @@
                 message: '',
                 inquire: null,
                 inquire_id: 0,
-                current_user: null
+                current_user: null,
+                inquires: this.datas
             }
         },
         methods: {
+            connect(id) {
+              window.Echo.join("testchannel")
+              .listen('MessageSent', e => {
+                  console.log(e)
+              })
+            },
             async sendReply() {
                 var form = {
                     message: this.message,
@@ -101,10 +108,17 @@
             },
             selectInquire(inquire) {
                 this.inquire = inquire;
+            },
+            async getInquires() {
+                await axios.get('/admin-inquires')
+                .then(response => {
+                    console.log(response)
+                })
             }
         },
         created() {
             this.current_user = this.app.current_user
+            this.connect()
         }
     }
 </script>

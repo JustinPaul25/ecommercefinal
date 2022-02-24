@@ -90,6 +90,7 @@ Route::get('/messages', [MessageController::class, 'list'])->middleware(['auth']
 Route::get('/administrator/messages', [MessageController::class, 'adminList'])->middleware(['auth'])->name('admin-messages');
 Route::post('/message', [MessageController::class, 'store'])->middleware(['auth']);
 Route::post('/reply-message', [MessageController::class, 'storeReply'])->middleware(['auth']);
+Route::get('/admin-inquires', [MessageController::class, 'adminInquires'])->middleware(['auth']);
 
 //PRODUCT IMAGE
 Route::put('/product-image-delete/{product}', [ProductImageController::class, 'destroy'])->middleware(['auth']);
