@@ -28,6 +28,7 @@ class ReviewsController extends Controller
     public function checkHasReview(Request $request)
     {
         $review = Review::where('product_id', $request->input('product_id'))->where('cart_id', $request->input('cart_id'))->get();
+        dd()
 
         return response()->json(count($review) == 0);
     }
