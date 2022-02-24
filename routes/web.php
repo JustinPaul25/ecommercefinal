@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\HotDealsController;
+use App\Http\Controllers\InvenoryController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\NewArrivalController;
 use App\Http\Controllers\ProductViewController;
@@ -136,5 +137,12 @@ Route::get('/print-yearly/{year}', [PrintController::class, 'yearReport'])->midd
 //ONLINE PAYMENT
 Route::get('/user/setup-intent', [OnlinePaymentController::class, 'getSetupIntent'])->middleware(['auth']);
 Route::post('/my-cart-checkout-mastercard', [OnlinePaymentController::class, 'checkout'])->middleware(['auth']);
+
+//INVENTORY REPORT
+Route::get('/inventory', function () {
+    return view('backend.inventory');
+})->middleware(['auth'])->name('inventory');
+Route::get('/inventory-products', [InvenoryController::class, 'getProducts'])->middleware(['auth']);
+Route::get('/inventory-print', [InvenoryController::class, 'print'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';

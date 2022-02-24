@@ -20,6 +20,8 @@
                         <a href="{{ route('admin-messages') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Queries</a>
 
                         <a href="{{ route('reports') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Reports</a>
+                        
+                        <a href="{{ route('inventory') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Inventory</a>
                     @endif
                 </div>
             @endif
