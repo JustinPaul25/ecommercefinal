@@ -15,6 +15,7 @@ use App\Http\Controllers\InvenoryController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\NewArrivalController;
 use App\Http\Controllers\ProductViewController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\LoginRedirectController;
 use App\Http\Controllers\OnlinePaymentController;
@@ -91,6 +92,8 @@ Route::get('/administrator/messages', [MessageController::class, 'adminList'])->
 Route::post('/message', [MessageController::class, 'store'])->middleware(['auth']);
 Route::post('/reply-message', [MessageController::class, 'storeReply'])->middleware(['auth']);
 Route::get('/admin-inquires', [MessageController::class, 'adminInquires'])->middleware(['auth']);
+Route::get('/customer-inquires', [MessageController::class, 'customerInquires'])->middleware(['auth']);
+Route::put('/seen-inquire/{inquire}', [MessageController::class, 'seenInquire'])->middleware(['auth']);
 
 //PRODUCT IMAGE
 Route::put('/product-image-delete/{product}', [ProductImageController::class, 'destroy'])->middleware(['auth']);
@@ -145,5 +148,10 @@ Route::get('/inventory', function () {
 })->middleware(['auth'])->name('inventory');
 Route::get('/inventory-products', [InvenoryController::class, 'getProducts'])->middleware(['auth']);
 Route::get('/inventory-print', [InvenoryController::class, 'print'])->middleware(['auth']);
+
+//NOTIFICATIONS
+Route::get('/get-notification', [NotificationController::class, 'getNotification'])->middleware(['auth']);
+Route::get('/seen-order', [NotificationController::class, 'seenOrder'])->middleware(['auth']);
+Route::get('/seen-message', [NotificationController::class, 'seenMessage'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';

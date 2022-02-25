@@ -114,7 +114,7 @@
       }
     },
     async mounted() {
-        this.stripe = await loadStripe("pk_test_ZeCMlVozROsukoQTdZrDmQF200tdMw4SZz");
+        this.stripe = await loadStripe("pk_test_51KTiSVLL0HnjcDaZewmzNV3hQieqpaNsf40DZlS5lUVeh4s1RqaxcoeWgrvGtpQ45HOKju8FGjFVpTqcjZ44Vb7Q00jD3bKrSz");
         const elements = this.stripe.elements();
         this.cardElement = elements.create('card', {
             classes: {

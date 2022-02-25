@@ -5,7 +5,6 @@
         <div class="flex flex-row items-center">
           <div class="flex flex-row items-center">
             <div class="text-xl font-semibold">Inquiries</div>
-            <div class="flex items-center justify-center ml-2 text-xs h-5 w-5 text-white bg-red-500 rounded-full font-medium">5</div>
           </div>
         </div>
         <div class="h-full overflow-hidden relative pt-2">
@@ -15,7 +14,7 @@
                 <div class="text-sm font-bold text-indigo-600">Product: {{ message.product.name }}</div>
                 <div class="text-xs truncate w-40">{{ message.message }}</div>
               </div>
-              <div v-if="message.unseen > 0" class="flex-shrink-0 ml-2 self-end mb-1">
+              <div v-if="current_user.id != message.user_last_message && message.unseen != 0" class="flex-shrink-0 ml-2 self-end mb-1">
                 <span class="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full">{{ message.unseen }}</span>
               </div>
             </div>
@@ -36,38 +35,31 @@
       <div class="h-full overflow-hidden py-4">
         <div class="h-full overflow-y-auto">
           <div class="grid grid-cols-12 gap-y-2">
-            <div v-if="current_user.id != message.user_id" v-for="message in inquire.replies" :key="message" class="col-start-6 col-end-13 p-3 rounded-lg">
-              <div class="flex items-center justify-start flex-row-reverse">
-                <div
-                    class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
-                >
-                  A
-                </div>
-                <div
-                    class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl"
-                >
-                  <div>I'm ok what about you?</div>
-                </div>
-              </div>
-            </div>
-            <div v-else class="col-start-1 col-end-8 p-3 rounded-lg">
-              <div class="flex flex-row items-center">
-                <div
-                    class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
-                >
-                  A
-                </div>
-                <div
-                    class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl"
-                >
-                  <div>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing
-                    elit. Vel ipsa commodi illum saepe numquam maxime
-                    asperiores voluptate sit, minima perspiciatis.
+            <template v-for="message in inquire.replies" :key="message">
+                <div v-if="current_user.id == message.user_id" class="col-start-6 col-end-13 p-3 rounded-lg">
+                  <div class="flex items-center justify-start flex-row-reverse">
+                    <div
+                        class="relative text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl"
+                    >
+                      <div>{{ message.message }}</div>
+                    </div>
                   </div>
+                  <p class="text-right mr-2 font-bold text-gray-700">Me</p>
                 </div>
-              </div>
-            </div>
+                <div v-else class="col-start-1 col-end-8 p-3 rounded-lg">
+                  <div class="flex flex-row items-center">
+                    <div
+                        class="relative text-sm bg-white py-2 px-4 shadow rounded-xl"
+                    >
+                      <div>
+                        {{ message.message }}
+                      </div>
+                    </div>
+                  </div>
+                  <p v-if="this.isAdmin()" class="ml-2 font-bold text-gray-700">{{ inquire.user.name }}</p>
+                  <p v-else class="ml-2 font-bold text-gray-700">Ming Computer Solutions</p>
+                </div>
+            </template>
           </div>
         </div>
       </div>
@@ -136,27 +128,82 @@
             async sendReply() {
                 var form = {
                     message: this.message,
-                    inquire_id: this.inquire.id
+                    inquire_id: this.inquire.id,
+                    user_id: this.current_user.id
                 }
                 await axios.post('/reply-message', form)
                 .then(response => {
-                    console.log(response)
+                    this.getInquires()
+                    this.inquire.replies.push(form)
+                    this.message = ''
                 })
             },
             async selectInquire(inquire) {
                 this.inquire_id = inquire.id
-                this.inquire = inquire;
+                this.inquire = inquire
+
+                if(this.current_user.id != inquire.user_last_message) {
+                  this.seenInquire(inquire.id) 
+                }
+            },
+            async seenInquire(id) {
+              await axios.put(`/seen-inquire/${id}`)
+              .then(response => {
+                this.getInquires()
+              });
             },
             async getInquires() {
-                await axios.get('/admin-inquires')
-                .then(response => {
-                    this.inquires = response.data.data
-                })
+                if(this.app.is_customer) {
+                  await axios.get('/customer-inquires')
+                  .then(response => {
+                      this.inquires = response.data.data
+                      if(this.inquire_id != 0) {
+                        this.inquire = response.data.data.find( ({ id }) => id === this.inquire_id )
+                      }
+                  })
+                } else {
+                  await axios.get('/admin-inquires')
+                  .then(response => {
+                      this.inquires = response.data.data
+                      if(this.inquire_id != 0) {
+                        this.inquire = response.data.data.find( ({ id }) => id === this.inquire_id )
+                      }
+                  })
+                }
+            },
+            checkLastMessage(message) {
+              if(message.unseen == 0) {
+                return false
+              } else {
+                if(message.replies.length == 0) {
+                  if(this.isAdmin) {
+                    return true
+                  } else {
+                    return false
+                  }
+                } else {
+                  const id = this.checkLastMessage(message.replies)
+                  if(id == this.app.current_user.id) {
+                    return false
+                  } else {
+                    return true
+                  }
+                }
+              }
+            },
+            lastMessageId(replies){
+              return replies[replies.length-1].user_id
+            },
+            async messageSeen() {
+              await axios.get('/seen-message')
             }
         },
         created() {
             this.current_user = this.app.current_user
             this.connect()
+            if(this.app.is_customer) {
+              this.messageSeen()
+            }
         }
     }
 </script>

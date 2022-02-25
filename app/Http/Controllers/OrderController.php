@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Cart;
 use App\Models\Sold;
 use App\Models\Product;
 use App\Models\CartItem;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\Recommendation;
 use App\Http\Resources\Cart\CartCollection;
-use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -62,6 +63,10 @@ class OrderController extends Controller
         } else {
             $cart->update([
                 'status' => $request->input('status')
+            ]);
+            $notification = Notification::where('user_id', $cart->user_id)->first();
+            $notification->update([
+                'order' =>  $notification->order + 1
             ]);
         }
 

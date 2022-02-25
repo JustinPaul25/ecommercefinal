@@ -19,6 +19,7 @@ class CreateInquiresTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('user_id');
             $table->integer('unseen');
+            $table->integer('user_last_message')->nullable();
             $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

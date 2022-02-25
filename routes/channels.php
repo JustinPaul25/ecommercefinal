@@ -25,3 +25,9 @@ Broadcast::channel('noticecustomer{userId}', function ($user) {
         return ['id' => $user->id, 'name' => $user->name];
     }
 });
+
+Broadcast::channel('notifyuser{userId}', function ($user) {
+    if(Auth::check()) {
+        return ['id' => $user->id, 'name' => $user->name];
+    }
+});

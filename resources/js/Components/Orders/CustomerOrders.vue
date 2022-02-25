@@ -155,10 +155,14 @@
             this.isOpen = true
             this.items = cart
             this.totalPrice = this.calculateTotal(cart.orders)
+        },
+        async orderSeen() {
+            await axios.get('/seen-order')
         }
     },
     created() {
         this.user = this.app.current_user
+        this.orderSeen()
     }
   }
 </script>

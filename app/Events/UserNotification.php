@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\Inquire;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -11,15 +11,15 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class NoticeCustomer implements ShouldBroadcast
+class UserNotification implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $userId;
+    public $user;
 
-    public function __construct(Inquire $inquire)
+    public function __construct(User $user)
     {
-        $this->userId = $inquire->user_id;
+        $this->userId = $user->id;
     }
 
     /**
@@ -29,6 +29,6 @@ class NoticeCustomer implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('noticecustomer'.$this->userId);
+        return new PresenceChannel('notifyuser'.$this->userId);
     }
 }
