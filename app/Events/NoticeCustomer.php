@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\User;
 use App\Models\Inquire;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -12,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class MessageSent implements ShouldBroadcast
+class NoticeCustomer
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -30,6 +29,6 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('noticeadmin');
+        return new PrivateChannel('noticecustomer'.$this->inquire->user_id);
     }
 }

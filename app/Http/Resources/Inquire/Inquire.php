@@ -19,7 +19,9 @@ class Inquire extends JsonResource
             'message' => $this->message,
             'replies' => $this->replyInquires,
             'product' => $this->product,
-            'updated_at' => $this->updated_at
+            'updated_at' => $this->updated_at,
+            'unseen' => $this->unseen,
+            'user' => $this->user
         ];
     }
 }

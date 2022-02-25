@@ -63,4 +63,10 @@ class MessageController extends Controller
 
         return 'successfully sent';
     }
+
+    public function adminInquires()
+    {
+        $data = Inquire::get();
+        return new InquireCollection($data);
+    }
 }

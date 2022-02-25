@@ -14,7 +14,13 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('testchannel', function ($user) {
+Broadcast::channel('noticeadmin', function ($user) {
+    if(Auth::check()) {
+        return ['id' => $user->id, 'name' => $user->name];
+    }
+});
+
+Broadcast::channel('noticecustomer{userId}', function ($user) {
     if(Auth::check()) {
         return ['id' => $user->id, 'name' => $user->name];
     }
