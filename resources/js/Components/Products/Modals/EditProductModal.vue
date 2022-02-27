@@ -99,7 +99,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="sm:col-span-4">
+                                                <!-- <div class="sm:col-span-4">
                                                     <label for="discount" class="block text-sm font-medium text-gray-700">
                                                         Discount Percentage
                                                     </label>
@@ -116,7 +116,7 @@
                                                             </span>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
 
                                                 <div class="sm:col-span-4">
                                                     <label for="stock" class="block text-sm font-medium text-gray-700">

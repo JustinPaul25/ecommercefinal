@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Inquire;
 use App\Events\MessageSent;
 use App\Models\Notification;
 use App\Models\ReplyInquire;
 use Illuminate\Http\Request;
 use App\Events\NoticeCustomer;
+use App\Events\UserNotification;
 use App\Http\Resources\Inquire\InquireCollection;
 
 class MessageController extends Controller
@@ -49,6 +51,8 @@ class MessageController extends Controller
             ]);
 
             broadcast(new NoticeCustomer($inquire))->toOthers();
+            $user = User::where('id', $inquire->user_id)->first();
+            broadcast(new UserNotification($user))->toOthers();
         } else {
             broadcast(new MessageSent($inquire))->toOthers();
         }

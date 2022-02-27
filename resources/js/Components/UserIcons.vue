@@ -36,6 +36,13 @@
             }
         },
         methods: {
+            connect(id) {
+                window.Echo.join(`notifyuser${this.app.current_user.id}`)
+                .listen('UserNotification', e => {
+                    this.cartCount()
+                    this.getUserNotification()
+                })
+            },
             async getUserNotification() {
                 await axios.get('/get-notification')
                 .then(response => {
@@ -53,6 +60,7 @@
         created() {
             this.cartCount()
             this.getUserNotification()
+            this.connect()
         }
     }
 </script>

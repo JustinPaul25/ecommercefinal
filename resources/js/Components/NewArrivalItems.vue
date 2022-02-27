@@ -5,28 +5,63 @@
             <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
                 <div class="flex items-center justify-between space-x-4">
                 <h2 class="text-xl font-bold text-gray-900">New Arrivals</h2>
-                <a href="/products/new-arrivals" class="whitespace-nowrap text-sm font-medium text-indigo-600 hover:text-indigo-500">View all<span aria-hidden="true"> &rarr;</span></a>
                 </div>
                 <div class="mt-6 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
-                    <div v-for="newArrival in newArrivals" :key="newArrival" class="relative group">
-                        <div class="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden bg-gray-100">
-                        <img :src="generateSrc(newArrival.images)" alt="Payment application dashboard screenshot with transaction table, financial highlights, and main clients on colorful purple background." class="object-center object-cover">
-                        <div class="flex items-end opacity-0 p-4 group-hover:opacity-100" aria-hidden="true">
-                            <a :href="`/product/${newArrival.id}`" class="w-full bg-white bg-opacity-75 backdrop-filter backdrop-blur py-2 px-4 rounded-md text-sm font-medium text-orange-600 text-center">View Product</a>
+                    <div v-for="product in newArrivals" :key="product" class="shadow-lg bg-white rounded-lg">
+                        <a href="#">
+                            <img :src="generateSrc(product.images)" class="rounded-tl-lg rounded-tr-lg" />
+                        </a>
+                        <div class="p-2">
+                            <h3 class="font-bold"><a href="#">{{ product.name }}</a></h3>
+                            <h3 class="text-orange-600"><a href="#">{{ product.category.name }}</a></h3>
+                            <p class="text-base text-gray-800">
+                                ₱ {{ product.price }}
+                            </p>
+                            <ul class="flex items-center gap-x-1">
+                                <li>
+                                    <i class="text-yellow-300 fas fa-star"></i> {{ roundRating(product.rating.rating) }}
+                                </li>
+                            </ul>
+                            <ul class="flex items-center gap-x-1">
+                                <li>
+                                    <span class="text-orange-600">{{ product.rating.count }} Reviews</span>
+                                </li>
+                            </ul>
+                            <p class="text-gray-600">{{ product.stock }} pcs. Remaining</p>
+                            <div class="flex flex-col xl:flex-row justify-between">
+                                <button @click="addToCart(product)" v-if="isLoggedIn()" class="bg-gradient-to-r from-orange-600 to-pink-500 rounded-full py-2 px-4 my-2 text-sm text-white hover:bg-orange-600 hover:from-orange-600 hover:to-orange-600 flex flex-row justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                    Add to cart
+                                </button>
+                                <a :href="`/product/${product.id}`" class="bg-orange-600 rounded-full py-2 px-4 my-2 text-sm text-white hover:bg-orange-700 flex flex-row justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                    View Details
+                                </a>
+                            </div>
                         </div>
-                        </div>
-                        <div class="mt-4 flex items-center justify-between text-base font-medium text-gray-900 space-x-8">
-                        <h3>
-                            <a :href="`/product/${newArrival.id}`">
-                                <span aria-hidden="true" class="absolute inset-0"></span>
-                                {{ newArrival.name }}
-                            </a>
-                        </h3>
-                        <p>₱ {{ newArrival.price }}</p>
-                        </div>
-                        <p class="mt-1 text-sm text-gray-500">{{ newArrival.category.name }}</p>
                     </div>
                 </div>
+                <section aria-labelledby="social-impact-heading" class="max-w-7xl mx-auto pt-4 px-4 sm:pt-8 sm:px-6 lg:px-8">
+                    <div class="relative rounded-lg overflow-hidden">
+                    <div class="absolute inset-0">
+                        <img src="https://cdn.stocksnap.io/img-thumbs/960w/woman-working_WJUW4LCN5X.jpg" alt="" class="w-full h-full object-center object-cover">
+                    </div>
+                    <div class="relative bg-gray-900 bg-opacity-75 py-32 px-6 sm:py-40 sm:px-12 lg:px-16">
+                        <div class="relative max-w-3xl mx-auto flex flex-col items-center text-center">
+                        <h2 id="social-impact-heading" class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                            <span class="block sm:inline">Ming Computer Solutions - Panabo Branch</span>
+                        </h2>
+                        <p class="mt-3 text-xl text-white">Browse - Add To Cart - Checkout</p>
+                        <p class="mt-3 text-xl text-white">At your finger tips</p>
+                        <a href="/products/new-arrivals" class="mt-8 w-full block bg-orange-600 border border-transparent rounded-md py-3 px-8 text-base font-bold text-white hover:bg-orange-100 sm:w-auto">View New Arrivals</a>
+                        </div>
+                    </div>
+                    </div>
+                </section>
             </div>
         </div>
     </div>

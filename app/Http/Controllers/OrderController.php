@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Cart;
 use App\Models\Sold;
+use App\Models\User;
 use App\Models\Product;
 use App\Models\CartItem;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\Recommendation;
+use App\Events\UserNotification;
 use App\Http\Resources\Cart\CartCollection;
 
 class OrderController extends Controller
@@ -65,9 +67,13 @@ class OrderController extends Controller
                 'status' => $request->input('status')
             ]);
             $notification = Notification::where('user_id', $cart->user_id)->first();
+            
             $notification->update([
                 'order' =>  $notification->order + 1
             ]);
+
+            $user = User::where('id', $cart->user_id)->first();
+            broadcast(new UserNotification($user))->toOthers();
         }
 
         $carts = Cart::where('status', '!=', 'unprocess')->get();

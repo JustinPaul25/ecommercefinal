@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div v-if="products != []" class="grid grid-flow-row grid-cols-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-                <div v-for="product in products" :key="product" class="shadow-lg rounded-lg">
+                <div v-for="product in products" :key="product" class="shadow-lg bg-white rounded-lg">
                     <a href="#">
                         <img :src="generateSrc(product.images)" class="rounded-tl-lg rounded-tr-lg" />
                     </a>
@@ -68,6 +68,7 @@
                 </div>
             </div>
             <paginate
+                class="bg-orange-200"
                 v-if="pagination != []"
                 :pagination="pagination"
                 @paginate="getProducts"

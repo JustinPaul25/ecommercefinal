@@ -15,7 +15,7 @@ class UserNotification implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user;
+    public $userId;
 
     public function __construct(User $user)
     {

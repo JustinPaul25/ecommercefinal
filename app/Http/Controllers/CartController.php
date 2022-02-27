@@ -81,7 +81,7 @@ class CartController extends Controller
         $cart = Cart::where('user_id', $user->id)->where('status', 'unprocess')->first();
 
         foreach($cart->cartItems as $item) {
-            $product = Product::where('id', $item->id)->first();
+            $product = Product::where('id', $item->product_id)->first();
             storeRecommendation($product);
         }
 
