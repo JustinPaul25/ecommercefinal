@@ -84,4 +84,9 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Cart::class);
     }
+
+    public function onlinePayments()
+    {
+        return $this->hasMany(OnlinePayment::class);
+    }
 }

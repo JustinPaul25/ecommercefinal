@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CartItem\CartItemCollection;
 use App\Models\Cart;
-use App\Models\CartItem;
 use App\Models\Product;
-use App\Models\Recommendation;
+use App\Models\CartItem;
+use App\Events\UpateProduct;
 use Illuminate\Http\Request;
+use App\Models\Recommendation;
+use App\Events\UpdateProductView;
+use App\Http\Resources\CartItem\CartItemCollection;
 
 class CartController extends Controller
 {
@@ -40,6 +42,12 @@ class CartController extends Controller
         $product = Product::where('id', $request->input('product_id'))->first();
         storeRecommendation($product);
 
+        $product->update([
+            'reserved' => $product->reserved + $request->input('quantity')
+        ]);
+
+        broadcast(new UpdateProductView($product))->toOthers();
+        broadcast(new UpateProduct())->toOthers();
         return 'product added to cart';
     }
 
@@ -60,6 +68,14 @@ class CartController extends Controller
 
     public function destroyItem(CartItem $cartItem)
     {
+        $product = Product::where('id', $cartItem->product_id)->first();
+        
+        $product->update([
+            'reserved' => $product->reserved - $cartItem->quantity
+        ]);
+
+        broadcast(new UpdateProductView($product))->toOthers();
+        broadcast(new UpateProduct())->toOthers();
         $cartItem->delete();
 
         $user = auth()->user();

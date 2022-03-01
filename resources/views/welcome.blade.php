@@ -18,6 +18,7 @@
         </div>
         </div>
     </section>
+    <welcome></welcome>
     @if(auth()->user())
         <recommended></recommended>
     @endif

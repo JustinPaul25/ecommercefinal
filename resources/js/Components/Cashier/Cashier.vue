@@ -104,7 +104,6 @@
                 return total
             },
             addToCart(product) {
-                window.alert(product.stock)
                 if(product.stock < 1) {
                     this.$swal.fire('Item Out of stock')
                 } else {

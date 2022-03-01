@@ -103,7 +103,8 @@
                     }
                 },
                 search: '',
-                category: ''
+                category: '',
+                page: 1
             }
         },
         watch: {
@@ -118,6 +119,12 @@
             }, 200),
         },
         methods: {
+            connect(id) {
+                window.Echo.join(`updateproduct`)
+                .listen('UpateProduct', e => {
+                    this.getProducts(this.page)
+                })
+            },
             roundRating(rate) {
                 var rate = Math.round(parseFloat(rate) * 10) / 10
                 if(Number.isNaN(rate)) {
@@ -142,7 +149,11 @@
                     confirmButtonColor: '#EA580C',
                     showLoaderOnConfirm: true,
                     preConfirm: (quantity) => {
-                        this.storeToCart(quantity, product)
+                        if(quantity > product.stock) {
+                            this.$swal.fire('Insufficient Stock')
+                        } else {
+                            this.storeToCart(quantity, product)
+                        }
                     },
                     allowOutsideClick: () => !this.$swal.isLoading()
                     }).then((result) => {
@@ -164,6 +175,7 @@
                         title: "Added to cart",
                         confirmButtonColor: "#ea580c"
                     })
+                    this.getProducts(this.page)
                 })
             },
             isLoggedIn() {
@@ -173,6 +185,7 @@
                 window.scrollTo(0,0)  
             },
             async getProducts(page) {
+                this.page = page
                 this.isLoading = true
                 await axios.get(`/products-list`, {
                     params: {
@@ -209,6 +222,7 @@
         created() {
             this.getProducts()
             this.getCategories()
+            this.connect()
         }
     }
 </script>

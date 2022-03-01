@@ -7,12 +7,8 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import 'vue3-carousel/dist/carousel.css';
 
-import HelloWorld from './components/Welcome'
 import Products from './Components/Products/Products'
 import Categories from './Components/Categories/Categories'
-import FeaturedItems from './Components/FeaturedItems'
-import NewArrivalItems from './Components/NewArrivalItems'
-import Recommended from './Components/Recommended'
 import ProductGrid from './Components/Products/ProductGrid'
 import ProductDetail from './Components/Products/ProductDetail'
 import CartItems from './Components/Checkout/CartItems'
@@ -25,15 +21,14 @@ import Settings from './Components/Settings'
 import ChangePassword from './Components/ChangePassword'
 import UserIcons from './Components/UserIcons'
 import Inventory from './Components/Inventory'
+import Welcome from './Components/Welcome'
+import Epayment from './Components/Epayment'
 
 const app = createApp({
     store,
     components: {
-        HelloWorld,
         Products,
         Categories,
-        FeaturedItems,
-        NewArrivalItems,
         ProductGrid,
         ProductDetail,
         CartItems,
@@ -42,11 +37,12 @@ const app = createApp({
         CustomerOrders,
         Cashier,
         Report,
-        Recommended,
         Settings,
         ChangePassword,
         UserIcons,
-        Inventory
+        Inventory,
+        Welcome,
+        Epayment
     }
 })
 app.mixin(global)

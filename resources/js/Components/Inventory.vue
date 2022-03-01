@@ -11,6 +11,7 @@
                     <tr>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product ID</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reserved</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sold</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
@@ -21,6 +22,7 @@
                     <tr v-for="sold in solds" :key="sold" class="bg-white">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ sold.id }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.reserved }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.sold }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.price }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.price*sold.sold }}</td>

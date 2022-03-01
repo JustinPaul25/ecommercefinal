@@ -22,6 +22,8 @@
                         <a href="{{ route('reports') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Reports</a>
                         
                         <a href="{{ route('inventory') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Inventory</a>
+                        
+                        <a href="{{ route('e-payment-logs') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">E-Payment Logs</a>
                     @endif
                 </div>
             @endif
@@ -140,6 +142,10 @@
                 <a href="{{ route('admin-orders') }}" href="#" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Orders</a>
                 
                 <a href="{{ route('admin-messages') }}" href="#" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Queries</a>
+
+                <a href="{{ route('inventory') }}" href="#" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Inventory</a>
+
+                <a href="{{ route('e-payment-logs') }}" href="#" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">E-Payment Logs</a>
             @endif
         @else
             <a href="{{ route('login') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Login</a>

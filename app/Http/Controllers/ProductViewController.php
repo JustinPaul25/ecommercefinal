@@ -62,9 +62,9 @@ class ProductViewController extends Controller
         }
 
         if(count($condition) == 0) {
-            $datas = $products->paginate(12);
+            $datas = $products->orderBy('name', 'asc')->paginate(12);
         } else {
-            $datas = $products->where($condition)->orderBy('created_at', 'desc')->paginate(12); 
+            $datas = $products->where($condition)->orderBy('name', 'asc')->paginate(12); 
         }
         
         return new ProductCollection($datas);
@@ -74,5 +74,10 @@ class ProductViewController extends Controller
     {
         $data = new ProductResource($product);
         return view('frontend.product-detail', ['data' => $data]);
+    }
+
+    public function stock(Product $product)
+    {
+        return response()->json($product->stock-$product->reserved);
     }
 }

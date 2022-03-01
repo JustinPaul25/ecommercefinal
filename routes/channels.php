@@ -20,7 +20,19 @@ Broadcast::channel('noticeadmin', function ($user) {
     }
 });
 
+Broadcast::channel('updateproduct', function ($user) {
+    if(Auth::check()) {
+        return ['id' => $user->id, 'name' => $user->name];
+    }
+});
+
 Broadcast::channel('noticecustomer{userId}', function ($user) {
+    if(Auth::check()) {
+        return ['id' => $user->id, 'name' => $user->name];
+    }
+});
+
+Broadcast::channel('updateproductview{productId}', function ($user) {
     if(Auth::check()) {
         return ['id' => $user->id, 'name' => $user->name];
     }

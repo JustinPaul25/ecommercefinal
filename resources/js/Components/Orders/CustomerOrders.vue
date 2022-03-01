@@ -20,14 +20,13 @@
                     <div class="mt-6 lg:mt-0 lg:col-span-5">
                     <dl class="grid grid-cols-2 gap-x-6 text-sm">
                         <div>
-                        <dt class="font-medium text-gray-900">Delivery address</dt>
+                        <dt class="font-medium text-gray-900">Product Ordered:</dt>
                         <dd class="mt-3 text-gray-500">
-                            <span class="block">{{ user.brgy }}</span>
-                            <span class="block">{{ user.city }}</span>
+                            <span v-for="item in order.orders" :key="item" class="block">{{ item.product.name }}</span>
                         </dd>
                         </div>
                         <div>
-                        <dt class="font-medium text-gray-900">Shipping updates</dt>
+                        <dt class="font-medium text-gray-900">My Information</dt>
                         <dd class="mt-3 text-gray-500 space-y-3">
                             <p>{{ user.email }}</p>
                             <p>{{ user.phone_no }}</p>

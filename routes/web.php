@@ -78,6 +78,7 @@ Route::get('/products/hot-deals', [ProductViewController::class, 'hotDeals'])->n
 Route::get('/products/new-arrivals', [ProductViewController::class, 'newArrivals'])->name('new-arrivals');
 Route::get('/products-list', [ProductViewController::class, 'list']);
 Route::get('/product/{product}', [ProductViewController::class, 'show']);
+Route::get('/product-stock/{product}', [ProductViewController::class, 'stock']);
 
 //CART
 Route::get('/cart-items', [CartController::class, 'list'])->middleware(['auth'])->name('cart');
@@ -153,5 +154,8 @@ Route::get('/inventory-print', [InvenoryController::class, 'print'])->middleware
 Route::get('/get-notification', [NotificationController::class, 'getNotification'])->middleware(['auth']);
 Route::get('/seen-order', [NotificationController::class, 'seenOrder'])->middleware(['auth']);
 Route::get('/seen-message', [NotificationController::class, 'seenMessage'])->middleware(['auth']);
+
+//EPAYMENT LOG
+Route::get('online-payment', [OnlinePaymentController::class, 'logs'])->middleware(['auth'])->name('e-payment-logs');
 
 require __DIR__.'/auth.php';

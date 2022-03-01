@@ -48,13 +48,6 @@
             </div>
         </div>
     </div>
-    <div v-else class="px-12 pt-4">
-        <div class="my-20">
-            <div class="flex flex-row justify-between my-5">
-                <h2 class="text-3xl">No Recommended Products for You</h2>
-            </div>
-        </div>
-    </div>
 </template>
 
 <script>
@@ -71,6 +64,12 @@ export default {
         }
     },
     methods: {
+        connect(id) {
+            window.Echo.join(`updateproduct`)
+            .listen('UpateProduct', e => {
+                this.getrecommended()
+            })
+        },
         roundRating(rate) {
             var rate = Math.round(parseFloat(rate) * 10) / 10
             if(Number.isNaN(rate)) {
@@ -115,7 +114,11 @@ export default {
                 confirmButtonColor: '#EA580C',
                 showLoaderOnConfirm: true,
                 preConfirm: (quantity) => {
-                    this.storeToCart(quantity, product)
+                    if(quantity > product.stock) {
+                        this.$swal.fire('Insufficient Stock')
+                    } else {
+                        this.storeToCart(quantity, product)
+                    }
                 },
                 allowOutsideClick: () => !this.$swal.isLoading()
                 }).then((result) => {
@@ -142,6 +145,7 @@ export default {
     },
     created() {
         this.getrecommended()
+        this.connect()
     }
 };
 </script>

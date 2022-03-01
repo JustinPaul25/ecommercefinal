@@ -25,6 +25,7 @@ class CreateProductsTable extends Migration
             $table->boolean('new_arrival')->default(false);
             $table->integer('stock');
             $table->integer('sold')->nullable();
+            $table->integer('reserved')->nullable();
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

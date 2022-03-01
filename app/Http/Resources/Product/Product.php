@@ -25,12 +25,13 @@ class Product extends JsonResource
             'price' => $this->price,
             'hot_deal' => $this->hot_deal,
             'new_arrival' => $this->new_arrival,
-            'stock' => $this->stock,
+            'stock' => $this->stock - $this->reserved,
             'sold' => $this->sold,
+            'reserved' => $this->reserved,
             'created_at' => $this->created_at,
             'images' => $this->images(),
             'category' => $this->category,
-            'rating' => $this->calculateRating($this->id)
+            'rating' => $this->calculateRating($this->id),
         ];
     }
 

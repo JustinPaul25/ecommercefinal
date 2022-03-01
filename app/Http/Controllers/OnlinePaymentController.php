@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\OnlinePayment;
 use App\Models\Sold;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -32,6 +33,12 @@ class OnlinePaymentController extends Controller
             $payment, $paymentMethodID
         );
 
+        OnlinePayment::create([
+            'user_id' => auth()->user()->id,
+            'cart_id' => $cart->id,
+            'amount' => $payment
+        ]);
+
         foreach($cart->cartItems as $item) {
             $product = Product::where('id', $item->product_id)->first();
             storeRecommendation($product);
@@ -41,12 +48,12 @@ class OnlinePaymentController extends Controller
                 'sold' => ($product->sold + $item->quantity)
             ]);
 
-            Sold::create([
-                'product_id' => $item->product_id,
-                'cart_id' => $cart->id,
-                'quantity' => $item->quantity,
-                'total_price' => $item->quantity*$product->price
-            ]);
+            // Sold::create([
+            //     'product_id' => $item->product_id,
+            //     'cart_id' => $cart->id,
+            //     'quantity' => $item->quantity,
+            //     'total_price' => $item->quantity*$product->price
+            // ]);
         }
 
         $cart->update([
@@ -55,5 +62,12 @@ class OnlinePaymentController extends Controller
         ]);
 
         return $stripeCharge;
+    }
+
+    public function logs()
+    {
+        $data = OnlinePayment::with(['user', 'cart'])->get();
+
+        return view('backend.epayment', ['data' => $data]);
     }
 }

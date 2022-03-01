@@ -81,6 +81,12 @@ export default {
         }
     },
     methods: {
+        connect(id) {
+            window.Echo.join(`updateproduct`)
+            .listen('UpateProduct', e => {
+                this.getHotDeals()
+            })
+        },
         roundRating(rate) {
             var rate = Math.round(parseFloat(rate) * 10) / 10
             if(Number.isNaN(rate)) {
@@ -125,7 +131,11 @@ export default {
                 confirmButtonColor: '#EA580C',
                 showLoaderOnConfirm: true,
                 preConfirm: (quantity) => {
-                    this.storeToCart(quantity, product)
+                    if(quantity > product.stock) {
+                        this.$swal.fire('Insufficient Stock')
+                    } else {
+                        this.storeToCart(quantity, product)
+                    }
                 },
                 allowOutsideClick: () => !this.$swal.isLoading()
                 }).then((result) => {
@@ -152,6 +162,7 @@ export default {
     },
     created() {
         this.getHotDeals()
+        this.connect()
     }
 };
 </script>

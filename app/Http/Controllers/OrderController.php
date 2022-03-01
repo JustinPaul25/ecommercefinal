@@ -8,10 +8,12 @@ use App\Models\Sold;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\CartItem;
+use App\Events\UpateProduct;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\Recommendation;
 use App\Events\UserNotification;
+use App\Events\UpdateProductView;
 use App\Http\Resources\Cart\CartCollection;
 
 class OrderController extends Controller
@@ -37,7 +39,8 @@ class OrderController extends Controller
                     $product = Product::where('id', $item->product->id)->first();
                     $product->update([
                         'stock' => ($product->stock - $item->quantity),
-                        'sold' => $product->sold + $item->quantity
+                        'sold' => $product->sold + $item->quantity,
+                        'reserved' => $product->reserved - $item->quantity
                     ]);
                     Sold::create([
                         'product_id' => $item->product->id,
@@ -91,7 +94,17 @@ class OrderController extends Controller
 
     public function cancelOrder(Cart $cart)
     {
-        $cart->update([
+        $items = CartItem::where('cart_id', $cart->id)->get();
+        foreach($items as $item) {
+            $product = Product::where('id', $item->product_id)->first();
+            $product->update([
+                'reserved' => $product->reserved - $item->quantity
+            ]);
+            broadcast(new UpdateProductView($product))->toOthers();
+            broadcast(new UpateProduct())->toOthers();
+        }
+
+        return $cart->update([
             'status' => 'cancelled'
         ]);
     }
