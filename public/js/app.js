@@ -21457,7 +21457,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.get('/has-review', {
                   params: {
                     product_id: product.product.id,
-                    cart_id: product.id
+                    cart_id: _this.datas.id
                   }
                 }).then(function (response) {
                   console.log(response);

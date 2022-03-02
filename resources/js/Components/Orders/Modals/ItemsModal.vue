@@ -95,7 +95,7 @@ export default {
           await axios.get('/has-review', {
             params: {
               product_id: product.product.id,
-              cart_id: product.id
+              cart_id: this.datas.id
             }
           }).then(response => {
             console.log(response)
