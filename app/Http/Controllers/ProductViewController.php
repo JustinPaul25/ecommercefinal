@@ -61,11 +61,19 @@ class ProductViewController extends Controller
             array_push($condition, $query);
         }
 
-        if(count($condition) == 0) {
-            $datas = $products->orderBy('name', 'asc')->paginate(12);
+        if($request->input('type') == 'products') {
+            if(count($condition) == 0) {
+                $datas = $products->orderBy('name', 'asc')->paginate(12);
+            } else {
+                $datas = $products->where($condition)->orderBy('name', 'asc')->paginate(12); 
+            }
         } else {
-            $datas = $products->where($condition)->orderBy('name', 'asc')->paginate(12); 
-        }
+            if(count($condition) == 0) {
+                $datas = $products->orderBy('updated_at', 'asc')->paginate(12);
+            } else {
+                $datas = $products->where($condition)->orderBy('updated_at', 'asc')->paginate(12); 
+            }
+        } 
         
         return new ProductCollection($datas);
     }
