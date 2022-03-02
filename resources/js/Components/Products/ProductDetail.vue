@@ -48,15 +48,17 @@
                     <p class="ml-3 text-sm font-medium text-orange-600 hover:text-orange-500">{{ product.rating.count }} reviews</p>
                 </div>
                 </div>
-                 <div class="pt-10">
-                    <label for="quantity" class="block text-sm font-medium text-gray-700">Qty.</label>
-                    <div class="mt-1">
-                        <input v-model="pcs" type="number" name="quantity" id="quantity" class="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="0">
+                <div v-if="!isAdmin()">
+                    <div class="pt-10">
+                        <label for="quantity" class="block text-sm font-medium text-gray-700">Qty.</label>
+                        <div class="mt-1">
+                            <input v-model="pcs" type="number" name="quantity" id="quantity" class="shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="0">
+                        </div>
                     </div>
+                    <button :disabled="checkQuantity()" @click="storeToCart()" v-if="isLoggedIn()" type="submit" class="mt-2 w-full bg-orange-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Add to Cart</button>
+                    <a v-else href="/login" class="mt-2 w-full bg-orange-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Login</a>
+                    <button v-if="isLoggedIn()" @click="sendMessage()" type="submit" class="mt-10 w-full bg-orange-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Ask Question</button>
                 </div>
-                <button :disabled="checkQuantity()" @click="storeToCart()" v-if="isLoggedIn()" type="submit" class="mt-2 w-full bg-orange-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Add to Cart</button>
-                <a v-else href="/login" class="mt-2 w-full bg-orange-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Login</a>
-                <button v-if="isLoggedIn()" @click="sendMessage()" type="submit" class="mt-10 w-full bg-orange-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Ask Question</button>
             </div>
 
             <div class="py-10 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
@@ -185,6 +187,9 @@
             },
             isLoggedIn() {
                 return this.app.logged_in
+            },
+            isAdmin() {
+                return this.app.is_admin
             },
             async storeRecommendation() {
                 var form = {

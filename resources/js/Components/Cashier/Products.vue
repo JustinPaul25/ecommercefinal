@@ -86,7 +86,8 @@ export default {
             isLoading: false,
             isOpen: false,
             product: null,
-            search: '' 
+            search: '',
+            page: 1, 
         }
     },
     computed: {
@@ -104,11 +105,18 @@ export default {
         }
     },
     methods: {
+        connect(id) {
+            window.Echo.join(`updateproduct`)
+            .listen('UpateProduct', e => {
+                this.getProducts(this.page)
+            })
+        },
         addToCart(product) {
             this.$emit('addToCart', product)
         },
         async getProducts(page) {
             this.isLoading = true;
+            this.page = page
             await this.$store.dispatch('product/getProducts', {
                 params: {
                     page: page,
@@ -120,7 +128,8 @@ export default {
         }
     },
     created() {
-         this.getProducts()   
+         this.getProducts()
+         this.connect()   
     }
 }
 </script>

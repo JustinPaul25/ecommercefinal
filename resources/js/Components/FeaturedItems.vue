@@ -96,7 +96,15 @@ export default {
             }
         },
         isLoggedIn() {
-            return this.app.logged_in
+            if(this.app.logged_in) {
+                if(this.app.is_admin) {
+                    return false
+                } else {
+                    return true
+                }
+            } else {
+                return false
+            }
         },
         async getHotDeals() {
             await axios.get('/hot-deals')

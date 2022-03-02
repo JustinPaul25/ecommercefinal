@@ -127,7 +127,22 @@
                                 name: product.name,
                                 price: product.price
                             }
-                            this.cart.push(item)
+
+                            var index = this.cart.findIndex(x => x.product_id === product.id);
+                            
+                            if(index >= 0) {
+                                if((parseInt(this.cart[index].pcs) + parseInt(quantity)) > parseInt(product.stock)) {
+                                    this.$swal.fire('Insufficient Stock')
+                                } else {
+                                    this.cart[index].pcs = parseInt(this.cart[index].pcs) + parseInt(quantity)
+                                }
+                            } else {
+                                if(parseInt(quantity) > parseInt(product.stock)) {
+                                    this.$swal.fire('Insufficient Stock')
+                                } else {
+                                    this.cart.push(item)
+                                }
+                            }
                         }
                     },
                     allowOutsideClick: () => !this.$swal.isLoading()
