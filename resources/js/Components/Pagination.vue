@@ -1,6 +1,6 @@
 <template>
     <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6" aria-label="Pagination">
-        <div class="hidden sm:block">
+        <div v-if="pagination.meta.form" class="hidden sm:block">
             <p class="text-sm text-gray-700">
             Showing
             <span class="font-medium">{{ pagination.meta.from }}</span>

@@ -98,7 +98,9 @@ export default {
     },
     watch: {
         search: debounce(function(newVal){
-            this.getProducts()
+            if(newVal != '') {
+                this.getProducts()
+            }
         }, 200),
         refreshProduct: function(newVal) {
            this.getProducts() 
@@ -108,7 +110,7 @@ export default {
         connect(id) {
             window.Echo.join(`updateproduct`)
             .listen('UpateProduct', e => {
-                this.getProducts(this.page)
+                //this.getProducts(this.page)
             })
         },
         addToCart(product) {
@@ -128,7 +130,6 @@ export default {
         }
     },
     created() {
-         this.getProducts()
          this.connect()   
     }
 }

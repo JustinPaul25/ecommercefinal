@@ -23,9 +23,13 @@ class OrderController extends Controller
         return view('backend.orders');
     }
 
-    public function allOrders()
+    public function allOrders(Request $request)
     {
-        $cart = Cart::where('status', '!=', 'unprocess')->get();
+        if($request->filled('search')) {
+            $cart = Cart::where('id', 'LIKE', '%'.$request->input('search').'%')->orderBy('id', 'desc')->get();
+        } else {
+            $cart = Cart::where('status', '!=', 'unprocess')->orderBy('id', 'desc')->get();
+        }        
 
         return new CartCollection($cart);
     }
@@ -86,7 +90,7 @@ class OrderController extends Controller
     
     public function customerOrders()
     {
-        $cart = Cart::where('status', '!=', 'unprocess')->where('user_id', auth()->id())->get();
+        $cart = Cart::where('status', '!=', 'unprocess')->where('user_id', auth()->id())->orderBy('id', 'desc')->get();
 
         $data = new CartCollection($cart);
         return view('frontend.orders', ['data' => $data]);

@@ -11,7 +11,7 @@ class ProductController extends Controller
     public function getProducts(Request $request)
     {
         if($request->filled('search')) {
-            $product = Product::where('name', 'LIKE', '%'.$request->input('search').'%')->orderBy('name', 'asc')->paginate(20);
+            $product = Product::where('name', 'LIKE', '%'.$request->input('search').'%')->orWhere('brand', 'LIKE', '%'.$request->input('search').'%')->orderBy('name', 'asc')->paginate(20);
         } else {
             $product = Product::orderBy('name', 'asc')->paginate(20);
         }

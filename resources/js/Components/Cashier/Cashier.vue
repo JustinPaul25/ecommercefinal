@@ -1,12 +1,8 @@
 <template>
     <div class="bg-white pt-4">
         <loading :isLoading="isLoading"></loading>
-        <div class="max-w-2xl mx-auto px-4 grid grid-cols-1 gap-y-16 gap-x-8 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid-cols-2">
-            <div>
-                <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Products</h2>
-                <products :refreshProduct="getProducts" @addToCart="addToCart"/>
-            </div>
-            <div>
+        <div class="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl grid-flow-col-dense lg:grid-cols-3">
+            <div class="space-y-6 col-start-2 col-span-2">
                 <div class="flex flex-col">
                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -54,7 +50,7 @@
                                     </h2>
                                     <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                                     <div class="inline-flex rounded-md shadow">
-                                        <button @click="checkout()" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">Process Payment</button>
+                                        <button :disabled="cash < reduceTotal()" @click="checkout()" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">Process Payment</button>
                                     </div>
                                     </div>
                                 </div>
@@ -62,6 +58,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-start-1 col-span-1">
+                <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Products</h2>
+                <products :refreshProduct="getProducts" @addToCart="addToCart"/>
             </div>
         </div>
     </div>
@@ -108,7 +108,8 @@
                     this.$swal.fire('Item Out of stock')
                 } else {
                     this.$swal.fire({
-                    title: 'Number of Items',
+                    text: 'Number of Items',
+                    title: product.name,
                     input: 'number',
                     inputAttributes: {
                         autocapitalize: 'off'

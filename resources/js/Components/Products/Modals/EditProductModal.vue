@@ -33,6 +33,15 @@
                                                 </div>
 
                                                 <div class="sm:col-span-4">
+                                                    <label for="name" class="block text-sm font-medium text-gray-700">
+                                                        Brand
+                                                    </label>
+                                                    <div class="mt-1 flex rounded-md shadow-sm">
+                                                        <input v-model="form.brand" type="text" name="name" id="name" autocomplete="name" class="flex-1 focus:ring-orange-500 focus:border-orange-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
+                                                    </div>
+                                                </div>
+
+                                                <div class="sm:col-span-4">
                                                     <div class="relative flex items-start ml-4">
                                                         <div class="flex items-center h-5">
                                                             <input v-model="form.new_arrival" id="hot_deal" name="hot_deal" type="checkbox" class="focus:ring-orange-500 h-4 w-4 text-orange-600 border-gray-300 rounded">
@@ -317,7 +326,8 @@ export default {
             price:'',
             hot_deal: false,
             new_arrival: false,
-            stock: ''
+            stock: '',
+            brand: ''
         },
         images: {
             pictureOne: null,

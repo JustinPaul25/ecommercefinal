@@ -66,6 +66,7 @@ s<template>
 <script>
     import Loading from '../LoadingSpinner.vue';
     import ItemsModal from './Modals/ItemsModal.vue'
+    import debounce from 'lodash/debounce'
 
     export default {
         components: {
@@ -82,6 +83,11 @@ s<template>
                 totalPrice: 0,
                 status: ""
             }
+        },
+        watch: {
+            search: debounce(function(newVal){
+                this.getOrders()
+            }, 200),
         },
         methods: {
             buttonLabel(order) {
@@ -114,7 +120,11 @@ s<template>
             },
             async getOrders() {
                 this.isLoading = true
-                await axios.get('/all-orders')
+                await axios.get('/all-orders', {
+                    params: {
+                        search: this.search
+                    }
+                })
                 .then(response => {
                     this.orders = response.data.data
                     this.isLoading = false

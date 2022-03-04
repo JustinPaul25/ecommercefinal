@@ -25,7 +25,8 @@ class ProductSeeder extends Seeder
             $imageUrl = $faker->imageUrl(640,480, null, false);
 
             $product = Product::create([
-                'name' => $faker->company,
+                'name' => $faker->catchPhrase,
+                'brand' => $faker->company,
                 'description' => $faker->text($maxNbChars = 200),
                 'specification' => $faker->text($maxNbChars = 200),
                 'category_id' => $category,

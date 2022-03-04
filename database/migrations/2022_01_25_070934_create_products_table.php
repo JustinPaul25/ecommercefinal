@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id');
             $table->string('name')->nullable();
+            $table->string('brand')->nullable();
             $table->longText('description')->nullable();
             $table->longText('specification')->nullable();
             $table->integer('discount')->nullable();

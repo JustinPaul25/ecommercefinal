@@ -53,6 +53,7 @@ class ProductViewController extends Controller
 
         if($request->filled('search')) {
             $query = ['name', 'LIKE', '%'.$request->input('search').'%'];
+            $query = ['brand', 'LIKE', '%'.$request->input('search').'%'];
             array_push($condition, $query);
         }
 
