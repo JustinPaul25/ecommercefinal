@@ -25,18 +25,30 @@ class OrderController extends Controller
 
     public function allOrders(Request $request)
     {
+        $cart = Cart::query();
+
+        $cart = $cart->where('status', '!=', 'unprocess');
+
         if($request->filled('search')) {
-            $cart = Cart::where('id', 'LIKE', '%'.$request->input('search').'%')->orderBy('id', 'desc')->get();
-        } else {
-            $cart = Cart::where('status', '!=', 'unprocess')->orderBy('id', 'desc')->get();
-        }        
+            $cart = $cart->where('id', 'LIKE', '%'.$request->input('search').'%')->orderBy('id', 'desc');
+        } 
+
+        if($request->filled('paymentMethod')) {
+            $cart = $cart->where('method', $request->input('paymentMethod'));
+        } 
+
+        if($request->filled('status')) {
+            $cart = $cart->where('status', $request->input('status'));
+        } 
+        
+        $cart = $cart->orderBy('id', 'desc')->get();
 
         return new CartCollection($cart);
     }
 
     public function cartChangeStatus(Request $request, Cart $cart)
     {
-        if($request->input('status') == "sold") {
+        if($request->input('status') == "Sold") {
             if($cart->method == 'pick-up') {
                 $items = CartItem::where('cart_id', $cart->id)->get();
                 foreach($items as $item) {
@@ -49,6 +61,7 @@ class OrderController extends Controller
                     Sold::create([
                         'product_id' => $item->product->id,
                         'cart_id' => $cart->id,
+                        'method' => $cart->method,
                         'quantity' => $item->quantity,
                         'total_price' => ($item->quantity*$product->price)
                     ]);
@@ -88,13 +101,18 @@ class OrderController extends Controller
         return new CartCollection($carts);
     }
     
+    public function customerOrdersView()
+    {
+        return view('frontend.orders');
+    }
+
     public function customerOrders()
     {
         $cart = Cart::where('status', '!=', 'unprocess')->where('user_id', auth()->id())->orderBy('id', 'desc')->get();
 
-        $data = new CartCollection($cart);
-        return view('frontend.orders', ['data' => $data]);
+        return new CartCollection($cart);
     }
+    
 
     public function cancelOrder(Cart $cart)
     {
@@ -111,5 +129,12 @@ class OrderController extends Controller
         return $cart->update([
             'status' => 'cancelled'
         ]);
+    }
+
+    public function pendingOrders()
+    {
+        $cart = Cart::where('status', 'processing')->orderBy('id', 'desc')->count();
+
+        return response()->json($cart);
     }
 }

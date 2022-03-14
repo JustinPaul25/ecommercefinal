@@ -18,8 +18,14 @@
                                   <h5 class="text-white text-2xl uppercase">{{ productName }}</h5>
                               </div>
                               <div class="modal-body p-5 w-full h-full overflow-y-auto">
-                                  <div class="mt-8">
-                                    <div class="flow-root">
+                                  <div class="my-4 w-full">
+                                    <div class="flex items-center w-full space-x-4 lg:space-x-6">
+                                      <img class="w-20 h-20 rounded-full lg:w-20 lg:h-20" :src="productSrc" alt="">
+                                      <div class="font-medium text-lg leading-6 space-y-1">
+                                        <h3>{{ productName }}</h3>
+                                      </div>
+                                    </div>
+                                    <div class="flow-root mt-4">
                                         <div>
                                           <label for="comment" class="block text-sm font-medium text-gray-700">Comment</label>
                                           <div class="mt-1 relative rounded-md shadow-sm">
@@ -67,7 +73,8 @@ export default {
         productId: Number,
         productName: String,
         isOpen: Boolean,
-        totalPrice: String
+        totalPrice: String,
+        productSrc: String
     },
     components: {
         Loading
@@ -124,7 +131,6 @@ export default {
           }
           await axios.post('/review', form)
           .then(response => {
-            console.log(response)
             this.closeModal()
           })
         }

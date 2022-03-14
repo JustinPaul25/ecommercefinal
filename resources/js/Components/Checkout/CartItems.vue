@@ -30,7 +30,7 @@
                           <p class="mt-1 text-sm text-gray-500">₱ {{ item.product.price }}</p>
                         </div>
                         <div class="flex-1 flex items-end justify-between text-sm">
-                          <p class="text-gray-500">Qty {{ item.quantity }}</p>
+                          <p class="text-gray-500">Qty <span @click="addQuantity(item)" class="text-orange-600 font-bold hover:text-orange-400 cursor-pointer">{{ item.quantity }}</span></p>
 
                           <div class="flex">
                             <button @click="removeItem(item.id)" class="font-medium text-orange-600 hover:text-orange-500">Remove</button>
@@ -167,6 +167,7 @@
           this.items = response.data.data
           this.isLoading = false
         })
+        await this.$store.dispatch('cart/removeCart')
       },
       async onlinePaymantCheckout() {
         this.isLoading = true
@@ -235,7 +236,41 @@
             this.intentToken = response.data;
             this.isLoading = false
         }.bind(this));
+      },
+      addQuantity(item) {
+        this.$swal.fire({
+        title: 'Update Quantity',
+        input: 'number',
+        showCancelButton: true,
+        confirmButtonText: 'Update',
+        showLoaderOnConfirm: true,
+        preConfirm: (quantity) => {
+          if(quantity > (item.product.stock + item.quantity)) {
+            this.$swal.fire('Insufficient Stock')
+          } else {
+              this.updateQuantity(item, quantity);
+          }
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+      }).then((result) => {
+        
+      })
+      },
+      async updateQuantity(item, quantity) {
+        console.log(item.id)
+        this.isLoading = true
+        var form = {
+          item_id: item.id,
+          quantity: quantity
         }
+
+        await axios.post('/update-quantity', form)
+        .then(response => {
+          this.getItems()
+          this.isLoading = false
+          this.$swal.fire('quantity updated')
+        })
+      }
     },
     created() {
       this.getItems()

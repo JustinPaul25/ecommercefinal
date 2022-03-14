@@ -39,7 +39,7 @@
                                             <div class="flex-1 flex items-end justify-between text-sm">
                                                 <p class="text-gray-500">Qty {{ item.quantity }}</p>
 
-                                                <div v-if="isCustomer()" class="flex">
+                                                <div v-if="isCustomer(item)" class="flex">
                                                   <button @click="postReview(item)" class="font-medium text-orange-600 hover:text-orange-500">Post Review</button>
                                                 </div>
                                             </div>
@@ -84,31 +84,19 @@ export default {
         };
     },
     methods: {
-        isCustomer() {
-          if(this.datas.status == 'sold') {
-            return this.app.is_customer
+        isCustomer(item) {
+          if(this.datas.status == 'Sold') {
+            if(this.app.is_customer && item.has_review === true) {
+              return false
+            } else {
+              return true
+            }
           } else {
             return false
           }
         },
         async postReview(product) {
-          await axios.get('/has-review', {
-            params: {
-              product_id: product.product.id,
-              cart_id: this.datas.id
-            }
-          }).then(response => {
-            console.log(response)
-            if(response.data) {
-              this.$emit('productReviewModal', product)
-            } else {
-              this.$swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'You already pos a review to this product',
-              })
-            }
-          })
+          this.$emit('productReviewModal', product)
         },
         reduceTotal() {
           let total = null;

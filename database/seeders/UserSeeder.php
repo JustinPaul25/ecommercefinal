@@ -28,6 +28,8 @@ class UserSeeder extends Seeder
 
         $user = User::create([
             'name' => "cashier",
+            'first_name' => "cashier",
+            'last_name' => "cashier",
             'email' => "cashier@mail.com",
             'password' => Hash::make('123123')
         ]);
@@ -36,6 +38,8 @@ class UserSeeder extends Seeder
 
         $user = User::create([
             'name' => "customer",
+            'first_name' => "customer",
+            'last_name' => "customer",
             'email' => "customer@mail.com",
             'password' => Hash::make('123123')
         ]);

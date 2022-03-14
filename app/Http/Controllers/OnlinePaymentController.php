@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
-use App\Models\OnlinePayment;
 use App\Models\Sold;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\OnlinePayment;
+use App\Events\CustomerOrders;
 
 class OnlinePaymentController extends Controller
 {
@@ -60,6 +61,8 @@ class OnlinePaymentController extends Controller
             'status' => 'processing',
             'method' => 'e-payment'
         ]);
+
+        broadcast(new CustomerOrders(auth()->user()))->toOthers();
 
         return $stripeCharge;
     }

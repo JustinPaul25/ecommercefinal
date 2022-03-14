@@ -17,6 +17,27 @@
                             <input v-model="search" id="search" name="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Search" type="search">
                         </div>
                     </div>
+                    <div class="max-w-lg w-full lg:max-w-xs mx-2">
+                        <label for="search" class="sr-only">Search</label>
+                        <div class="relative">
+                            <select v-model="category" id="search" name="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Search">
+                                <option value="">Categories</option>
+                                <option v-for="category in categories" :key="category" :value="category.id">{{ category.name }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="max-w-lg w-full lg:max-w-xs mx-2">
+                        <label for="search" class="sr-only">Search</label>
+                        <div class="relative">
+                            <select v-model="sortBy" id="search" name="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Search">
+                                <option value="">Sort By</option>
+                                <option value="name_asc">Name: A-Z</option>
+                                <option value="name_desc">Name: Z-A</option>
+                                <option value="price_asc">Price: High to Low</option>
+                                <option value="price_desc">Price: Low to High</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="ml-4 mt-2 flex-shrink-0">
                     <product-modal></product-modal>
@@ -60,7 +81,7 @@
                     <div class="mt-2 sm:flex sm:justify-between">
                         <div class="sm:flex">
                         <p class="flex items-center text-sm text-gray-500">
-                            Price: <span class="text-gray-700 font-bold">{{ ` ₱ ${product.price}` }}</span>
+                            Price: <span class="text-gray-700 font-bold">{{ ` ₱ ${formatPrice(product.price)}` }}</span>
                         </p>
                         <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
                             Sold: <span class="text-gray-700 font-bold">{{ product.sold }}</span>
@@ -112,7 +133,10 @@ export default {
             isLoading: false,
             isOpen: false,
             product: null,
-            search: '' 
+            categories: null,
+            search: '',
+            category: '',
+            sortBy: ''
         }
     },
     computed: {
@@ -123,6 +147,12 @@ export default {
     },
     watch: {
         search: debounce(function(newVal){
+            this.getProducts()
+        }, 200),
+        category: debounce(function(newVal){
+            this.getProducts()
+        }, 200),
+        sortBy: debounce(function(newVal){
             this.getProducts()
         }, 200),
     },
@@ -136,7 +166,9 @@ export default {
             await this.$store.dispatch('product/getProducts', {
                 params: {
                     page: page,
-                    search: this.search
+                    search: this.search,
+                    category: this.category,
+                    sortBy: this.sortBy
                 }
             }).then(() => {
                 this.isLoading = false;
@@ -183,10 +215,17 @@ export default {
                     
                 }
             })
+        },
+        async getCategories() {
+            await axios.get('/category-selection')
+            .then( response => {
+                this.categories = response.data
+            });
         }
     },
     created() {
-         this.getProducts()   
+         this.getProducts()
+         this.getCategories()   
     }
 }
 </script>

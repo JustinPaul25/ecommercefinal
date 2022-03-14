@@ -21,6 +21,7 @@ class Sold extends JsonResource
             'cart_id' => $this->cart_id,
             'product' => $this->getProduct($this->product_id),
             'quantity' => $this->quantity,
+            'method' => $this->method,
             'total_price' => $this->total_price,
         ];
     }

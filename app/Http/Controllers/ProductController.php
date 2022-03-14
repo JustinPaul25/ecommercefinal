@@ -7,13 +7,34 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Product\ProductCollection;
 
 class ProductController extends Controller
-{
+{   
     public function getProducts(Request $request)
     {
+        $product = Product::query();
+
         if($request->filled('search')) {
-            $product = Product::where('name', 'LIKE', '%'.$request->input('search').'%')->orWhere('brand', 'LIKE', '%'.$request->input('search').'%')->orderBy('name', 'asc')->paginate(20);
+            $product = $product->where('name', 'LIKE', '%'.$request->input('search').'%')->orWhere('brand', 'LIKE', '%'.$request->input('search').'%');
+        }
+
+        if($request->filled('category')) {
+            $product = $product->where('category_id', $request->input('category'));
+        }
+
+        if($request->filled('sortBy')) {
+            if($request->input('sortBy') === 'name_asc') {
+                $product = $product->orderBy('name', 'asc')->paginate(20);
+            }
+            if($request->input('sortBy') === 'name_desc') {
+                $product = $product->orderBy('name', 'desc')->paginate(20);
+            }
+            if($request->input('sortBy') === 'price_asc') {
+                $product = $product->orderBy('price', 'asc')->paginate(20);
+            }
+            if($request->input('sortBy') === 'price_desc') {
+                $product = $product->orderBy('price', 'desc')->paginate(20);
+            }
         } else {
-            $product = Product::orderBy('name', 'asc')->paginate(20);
+            $product = $product->orderBy('name', 'asc')->paginate(20);
         }
 
         return new ProductCollection($product);
@@ -24,6 +45,7 @@ class ProductController extends Controller
         //dd($request->file('image_two'));
         $product = Product::create([
             'name' => $request->input('name'),
+            'brand' => $request->input('brand'),
             'description' => $request->input('description'),
             'specification' => $request->input('specification'),
             'category_id' => $request->input('category_id'),
@@ -36,6 +58,7 @@ class ProductController extends Controller
 
         $inputs = [
             'name' => $request->input('name'),
+            'brand' => $request->input('brand'),
             'description' => $request->input('description'),
             'specification' => $request->input('specification'),
             'category_id' => $request->input('category_id'),
@@ -71,6 +94,7 @@ class ProductController extends Controller
     {
         $product->update([
             'name' => $request->input('name'),
+            'brand' => $request->input('brand'),
             'description' => $request->input('description'),
             'specification' => $request->input('specification'),
             'category_id' => $request->input('category_id'),
@@ -83,6 +107,7 @@ class ProductController extends Controller
 
         $inputs = [
             'name' => $request->input('name'),
+            'brand' => $request->input('brand'),
             'description' => $request->input('description'),
             'specification' => $request->input('specification'),
             'category_id' => $request->input('category_id'),

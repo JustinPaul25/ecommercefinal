@@ -26,20 +26,25 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
+
     export default {
         data() {
             return {
                 notificationValues: null,
-                cart: 0,
                 message: 0,
                 order: 0
             }
+        },
+        computed: {
+        ...mapGetters({
+                cart: 'cart/cart'
+            }),
         },
         methods: {
             connect(id) {
                 window.Echo.join(`notifyuser${this.app.current_user.id}`)
                 .listen('UserNotification', e => {
-                    this.cartCount()
                     this.getUserNotification()
                 })
             },
@@ -51,10 +56,7 @@
                 })
             },
             async cartCount() {
-                await axios.get('/my-cart')
-                .then(response => {
-                    this.cart = response.data.data.length
-                })
+                await this.$store.dispatch('cart/getCart')
             }
         },
         created() {

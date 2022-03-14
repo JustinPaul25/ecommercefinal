@@ -42,7 +42,7 @@
                     <div class="mt-2 sm:flex sm:justify-between">
                         <div class="sm:flex">
                             <p class="flex items-center text-sm text-gray-500">
-                                Price: <span class="text-gray-700 font-bold">{{ ` ₱ ${product.price}` }}</span>
+                                Price: <span class="text-gray-700 font-bold">{{ ` ₱  ${formatPrice(product.price)}` }}</span>
                             </p>
                             <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
                                 Sold: <span class="text-gray-700 font-bold">{{ product.sold }}</span>

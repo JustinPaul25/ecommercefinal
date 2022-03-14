@@ -9,11 +9,13 @@ use App\Http\Resources\Product\Product as ProductResource;
 
 class ProductViewController extends Controller
 {
-    public function products()
+    public function products(Request $request)
     {
+
         $data = (object)[
             'type' => 'products',
-            'title' => 'All Products'
+            'title' => 'All Products',
+            'search' => $request->filled('search') ? $request->input('search') : ''
         ];
         return view('frontend.products-grid', ['data' => $data]);
     }
@@ -22,7 +24,8 @@ class ProductViewController extends Controller
     {
         $data = (object)[
             'type' => 'new-arrival',
-            'title' => 'New Arrival'
+            'title' => 'New Arrival',
+            'search' => ''
         ];
         return view('frontend.products-grid', ['data' => $data]);
     }
@@ -31,7 +34,8 @@ class ProductViewController extends Controller
     {
         $data = (object)[
             'type' => 'hot-deal',
-            'title' => 'Hot Deal'
+            'title' => 'Hot Deal',
+            'search' => ''
         ];
         return view('frontend.products-grid', ['data' => $data]);
     }

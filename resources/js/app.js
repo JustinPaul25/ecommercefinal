@@ -23,6 +23,9 @@ import UserIcons from './Components/UserIcons'
 import Inventory from './Components/Inventory'
 import Welcome from './Components/Welcome'
 import Epayment from './Components/Epayment'
+import UserRegistration from './Components/Registration'
+import OrderIcon from './Components/OrderIcon'
+import SearchBar from './Components/SearchBar'
 
 const app = createApp({
     store,
@@ -42,7 +45,10 @@ const app = createApp({
         UserIcons,
         Inventory,
         Welcome,
-        Epayment
+        Epayment,
+        UserRegistration,
+        OrderIcon,
+        SearchBar
     }
 })
 app.mixin(global)

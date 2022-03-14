@@ -12,7 +12,9 @@ use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\HotDealsController;
 use App\Http\Controllers\InvenoryController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\DesclaimerController;
 use App\Http\Controllers\NewArrivalController;
 use App\Http\Controllers\ProductViewController;
 use App\Http\Controllers\NotificationController;
@@ -52,6 +54,7 @@ Route::get('/change-password', function () {
 Route::get('/my-data', [UserController::class, 'myData'])->middleware(['auth']);
 Route::post('/update-data', [UserController::class, 'update'])->middleware(['auth']);
 Route::post('/user-change-password', [UserController::class, 'changePassword'])->middleware(['auth']);
+Route::get('/user-registration', [UserController::class, 'registration']);
 
 //CATEGORIES
 Route::get('/administrator/categories', function () {
@@ -86,6 +89,7 @@ Route::post('/add-to-cart', [CartController::class, 'store'])->middleware(['auth
 Route::get('/my-cart', [CartController::class, 'myCart'])->middleware(['auth']);
 Route::get('/my-cart-checkout', [CartController::class, 'myCartCheckout'])->middleware(['auth']);
 Route::delete('/{cartItem}/my-cart', [CartController::class, 'destroyItem'])->middleware(['auth']);
+Route::post('/update-quantity', [CartController::class, 'addQuantity'])->middleware(['auth']);
 
 //MESSAGE
 Route::get('/messages', [MessageController::class, 'list'])->middleware(['auth'])->name('messages');
@@ -107,9 +111,11 @@ Route::get('/new-arrival', [NewArrivalController::class, 'heroData']);
 //ORDERS
 Route::get('/administrator/orders', [OrderController::class, 'list'])->middleware(['auth'])->name('admin-orders');
 Route::get('/all-orders', [OrderController::class, 'allOrders'])->middleware(['auth']);
-Route::get('/orders', [OrderController::class, 'customerOrders'])->middleware(['auth'])->name('frontend-orders');
+Route::get('/orders', [OrderController::class, 'customerOrdersView'])->middleware(['auth'])->name('frontend-orders');
 Route::put('/cart-change-status/{cart}', [OrderController::class, 'cartChangeStatus'])->middleware(['auth']);
 Route::get('/cancel-order/{cart}', [OrderController::class, 'cancelOrder'])->middleware(['auth']);
+Route::get('/get-pending-orders', [OrderController::class, 'pendingOrders'])->middleware(['auth']);
+Route::get('/customer-orders', [OrderController::class, 'customerOrders'])->middleware(['auth']);
 
 //REVIEWS
 Route::post('/review', [ReviewsController::class, 'store'])->middleware(['auth']);
@@ -157,5 +163,12 @@ Route::get('/seen-message', [NotificationController::class, 'seenMessage'])->mid
 
 //EPAYMENT LOG
 Route::get('online-payment', [OnlinePaymentController::class, 'logs'])->middleware(['auth'])->name('e-payment-logs');
+
+//LOCATION
+Route::get('get-city', [LocationController::class, 'city']);
+Route::get('get-barangay', [LocationController::class, 'brgy']);
+
+//DESCLAIMER
+Route::get('disclaimer', [DesclaimerController::class, 'index']);
 
 require __DIR__.'/auth.php';

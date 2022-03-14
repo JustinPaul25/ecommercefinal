@@ -14,6 +14,7 @@
             <p class="mt-3 text-xl text-white">Browse - Add To Cart - Checkout</p>
             <p class="mt-3 text-xl text-white">At your finger tips</p>
             <a href="/products/all-products" class="mt-8 w-full block bg-indigo-600 border border-transparent rounded-md py-3 px-8 text-base font-bold text-white hover:bg-indigo-100 sm:w-auto">View Products</a>
+            <search-bar></search-bar>
             </div>
         </div>
         </div>

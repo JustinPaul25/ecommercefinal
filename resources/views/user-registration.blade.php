@@ -1,5 +1,5 @@
 @extends('vue-layouts.app')
 
 @section('content')
-    <customer-orders></customer-orders>
+    <user-registration></user-registration>
 @endsection

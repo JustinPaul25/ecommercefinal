@@ -20,6 +20,7 @@ class Review extends JsonResource
             'id' => $this->id,
             'stars' => $this->stars,
             'message' => $this->message,
+            'created_at' => $this->created_at,
             'user' => $this->getUser($this->user_id)
         ];
     }

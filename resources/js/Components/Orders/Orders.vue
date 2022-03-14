@@ -5,7 +5,7 @@ s<template>
         <div class="bg-white px-4 pb-5 border-b border-gray-200 sm:px-6">
             <div class="-ml-4 pt-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
                 <div class="flex-1 flex items-center justify-start lg:ml-6">
-                    <div class="max-w-lg w-full lg:max-w-xs">
+                    <div class="max-w-lg w-full lg:max-w-xs mx-2">
                         <label for="search" class="sr-only">Search</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -15,6 +15,29 @@ s<template>
                             </svg>
                             </div>
                             <input v-model="search" id="search" name="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Search" type="search">
+                        </div>
+                    </div>
+                    <div class="max-w-lg w-full lg:max-w-xs mx-2">
+                        <label for="search" class="sr-only">Search</label>
+                        <div class="relative">
+                            <select v-model="paymentMethod" id="search" name="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Search">
+                                <option value="">Method</option>
+                                <option value="e-payment">E-Payment</option>
+                                <option value="pick-up">Pick-Up</option>
+                                <option value="walk-in">Walk In</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="max-w-lg w-full lg:max-w-xs mx-2">
+                        <label for="search" class="sr-only">Status</label>
+                        <div class="relative">
+                            <select v-model="status" id="search" name="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Search">
+                                <option value="">Status</option>
+                                <option value="cancelled">Cancelled</option>
+                                <option value="processing">Processing</option>
+                                <option value="ready for pick-up">Ready for Pick-Up</option>
+                                <option value="Sold">Sold</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -46,10 +69,15 @@ s<template>
                                 <td @click="openModal(order)" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ order.id }}</td>
                                 <td @click="openModal(order)" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">{{ order.sold_to }}</td>
                                 <td @click="openModal(order)" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">{{ order.method }}</td>
-                                <td @click="openModal(order)" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">{{ order.status }}</td>
+                                <td @click="openModal(order)" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
+                                    <span v-if="order.status === 'cancelled'" class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">Cancelled</span>
+                                    <span v-if="order.status === 'processing'" class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-blue-600 rounded-full">Processing</span>
+                                    <span v-if="order.status === 'ready for pick-up'" class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-blue-600 rounded-full">Ready for Pick-up</span>
+                                    <span v-if="order.status === 'Sold'" class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">Sold</span>
+                                </td>
                                 <td @click="openModal(order)" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₱ {{ calculateTotal(order.orders)}}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button v-if="order.status != 'sold'" @click="changeStatus(order)" href="#" class="text-indigo-600 hover:text-indigo-900">{{ buttonLabel(order) }}</button>
+                                    <button v-if="checkStatus(order.status)" @click="changeStatus(order)" href="#" class="bg-orange-600 hover:bg-orange-300 text-white font-bold py-2 px-4 rounded">{{ buttonLabel(order) }}</button>
                                 </td>
                             </tr>
 
@@ -80,6 +108,7 @@ s<template>
                 orders: [],
                 isOpen: false,
                 search: "",
+                paymentMethod: '',
                 totalPrice: 0,
                 status: ""
             }
@@ -88,8 +117,25 @@ s<template>
             search: debounce(function(newVal){
                 this.getOrders()
             }, 200),
+            paymentMethod: debounce(function(newVal){
+                this.getOrders()
+            }, 200),
+            status: debounce(function(newVal){
+                this.getOrders()
+            }, 200),
         },
         methods: {
+            checkStatus(status) {
+                if(status === "Sold") {
+                    return false
+                } else {
+                    if(status === "cancelled") {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            },  
             buttonLabel(order) {
                 if(order.status == "processing") {
                     return "Mark as Ready for Pick Up"
@@ -104,7 +150,7 @@ s<template>
                     var status = "ready for pick-up"
                 }
                 if(order.status == "ready for pick-up") {
-                    var status = "sold"
+                    var status = "Sold"
                 }
 
                 await axios.put(`/cart-change-status/${order.id}`, {
@@ -116,13 +162,15 @@ s<template>
             },
             calculateTotal(items) {
                 const total = Object.values(items).reduce((t, {product, quantity}) => t + (parseFloat(product.price)*quantity), 0)
-                return total
+                return this.formatPrice(total)
             },
             async getOrders() {
                 this.isLoading = true
                 await axios.get('/all-orders', {
                     params: {
-                        search: this.search
+                        search: this.search,
+                        paymentMethod: this.paymentMethod,
+                        status: this.status
                     }
                 })
                 .then(response => {

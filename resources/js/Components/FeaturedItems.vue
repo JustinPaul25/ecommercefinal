@@ -16,7 +16,7 @@
                             <h3><a href="#">{{ product.brand }}</a></h3>
                             <h3 class="text-orange-600"><a href="#">{{ product.category.name }}</a></h3>
                             <p class="text-base text-gray-800">
-                                ₱ {{ product.price }}
+                                ₱ {{ formatPrice(product.price) }}
                             </p>
                             <ul class="flex items-center gap-x-1">
                                 <li>

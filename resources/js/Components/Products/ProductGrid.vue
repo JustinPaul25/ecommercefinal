@@ -221,8 +221,13 @@
             }
         },
         created() {
-            this.getProducts()
             this.getCategories()
+            if(this.pageData.search == '') {
+                this.getProducts()
+            } else {
+                this.search = this.pageData.search
+                this.getProducts()
+            }
             this.connect()
         }
     }

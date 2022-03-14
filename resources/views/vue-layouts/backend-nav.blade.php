@@ -9,13 +9,13 @@
             @if(auth()->user())
                 <div class="ml-10 flex items-baseline space-x-4">
                     @if(auth()->user()->isAdmin())
-                        <a href="{{ route('cashier') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Cashier</a>
-
                         <a href="{{ route('admin-products') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Products</a>
 
                         <a href="{{ route('admin-categories') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Categories</a>
 
-                        <a href="{{ route('admin-orders') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Orders</a>
+                        <a href="{{ route('admin-orders') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Orders  <order-icon /></a>
+
+                        <a href="{{ route('cashier') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Cashier</a>
 
                         <a href="{{ route('admin-messages') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 px-3 py-2 rounded-md text-sm font-medium">Queries</a>
 
@@ -131,15 +131,15 @@
             @if(auth()->user()->isCustomer())
                 customersds
             @else
-                <a href="{{ route('cashier') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Cashier</a>
-
                 <a href="{{ route('admin-products') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Products</a>
 
                 <a href="{{ route('admin-categories') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Categories</a>
 
                 <a href="{{ route('reports') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Reports</a>
 
-                <a href="{{ route('admin-orders') }}" href="#" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Orders</a>
+                <a href="{{ route('admin-orders') }}" href="#" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Orders <order-icon /></a>
+
+                <a href="{{ route('cashier') }}" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Cashier</a>
                 
                 <a href="{{ route('admin-messages') }}" href="#" class="text-white hover:bg-orange-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Queries</a>
 

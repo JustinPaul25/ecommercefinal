@@ -17,7 +17,9 @@ class UserController extends Controller
     {
         $user = auth()->user();
         $user->update([
-            'name' => $request->input('name'),
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'name' => $request->input('first_name').' '.$request->input('first_name'),
             'brgy' => $request->input('brgy'),
             'city' => $request->input('city'),
             'phone_no' => $request->input('phone_no'),
@@ -35,5 +37,10 @@ class UserController extends Controller
     {
         $user = auth()->user();
         return $user->update([ 'password' => Hash::make($request->input('password')) ]);
+    }
+
+    public function registration()
+    {
+        return view('user-registration');
     }
 }

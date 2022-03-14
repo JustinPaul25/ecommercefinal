@@ -20,7 +20,7 @@
                                     <tr v-for="item in cart" :key="item" class="bg-white">
                                         <td class="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">{{ item.name }}</td>
                                         <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-500">{{ item.pcs }}</td>
-                                        <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-500">{{ item.price }}</td>
+                                        <td class="px-6 py-1 whitespace-nowrap text-sm text-gray-500">₱ {{ formatPrice(item.price) }}</td>
                                         <td class="px-6 py-1 whitespace-nowrap text-right text-sm font-medium">
                                             <a @click="removeItem(item)" class="text-orange-600 hover:text-orange-900">Remove</a>
                                         </td>
@@ -34,23 +34,23 @@
                                         <label for="name" class="block text-xs font-medium text-gray-700">Customer Name</label>
                                         <input v-model="customer" type="text" name="name" id="name" class="font-bold w-full block border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
                                     </div>
-                                    <div class="relative bg-white border px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                                    <div @click="inputAmount()" class="relative bg-white border px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
                                         <label for="name" class="block text-xs font-medium text-gray-700">Cash</label>
-                                        <input v-model="cash" type="text" name="name" id="name" class="font-bold block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                                        <input disabled :value="`₱ ${formatPrice(cash)}`" type="text" name="name" id="name" class="font-bold block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
                                     </div>
                                     <div class="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
                                         <label for="job-title" class="block w-full text-xs font-medium text-gray-700">Change</label>
-                                        <input disabled v-model="change" name="job-title" id="job-title" class="font-bold block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                                        <input disabled :value="`₱ ${formatPrice(change)}`" name="job-title" id="job-title" class="font-bold block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
                                     </div>
                                 </div>
                                 <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:py-4 lg:px-8 lg:flex lg:items-center lg:justify-between">
                                     <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                                     <span class="block">Total</span>
-                                    <span class="block text-orange-600">{{ reduceTotal() }}</span>
+                                    <span class="block text-orange-600">₱  {{ this.formatPrice(reduceTotal()) }}</span>
                                     </h2>
                                     <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                                     <div class="inline-flex rounded-md shadow">
-                                        <button :disabled="cash < reduceTotal()" @click="checkout()" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">Process Payment</button>
+                                        <button :disabled="processValidation()" @click="checkout()" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">Process Payment</button>
                                     </div>
                                     </div>
                                 </div>
@@ -93,6 +93,35 @@
             }
         },
         methods: {
+            processValidation() {
+                if(this.cash < this.reduceTotal()) {
+                    return true
+                } else {
+                    if(this.cart.length == 0) {
+                        return true
+                    } else {
+                        false
+                    }
+                }
+            },
+            inputAmount() {
+                this.$swal.fire({
+                    title: 'Input Cash Amount',
+                    input: 'number',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: 'Confirm',
+                    showLoaderOnConfirm: true,
+                    preConfirm: (amount) => {
+                        this.cash = amount
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                    }).then((result) => {
+                    
+                })
+            },
             removeItem(item) {
                 this.cart = this.cart.filter(function( obj ) {
                     return obj.product_id !== item.product_id;
@@ -170,6 +199,9 @@
                     window.open(`/receipt/${response.data.id}`, '_blank');
                 })
             }
+        },
+        created() {
+            console.log(this.userGreetings('asdasdas'))
         }
     }
 </script>

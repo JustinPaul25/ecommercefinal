@@ -1,40 +1,12 @@
 <template>
     <div class="min-h-full bg-orange-300 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-        <div class="mt-6 flex justify-center">
-            <div class="mt-6 flex-grow lg:mt-0 lg:ml-6 lg:flex-grow-0 lg:flex-shrink-0">
-                <p class="text-sm font-medium text-gray-700" aria-hidden="true">
-                    Change
-                </p>
-                <div class="mt-1 lg:hidden">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0 inline-block rounded-full overflow-hidden h-12 w-12" aria-hidden="true">
-                            <img class="object-cover rounded-full h-full w-full" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixqx=GySe9Z9EJy&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80" alt="">
-                        </div>
-                        <div class="ml-5 rounded-md shadow-sm">
-                            <div class="group relative border border-gray-300 rounded-md py-2 px-3 flex items-center justify-center hover:bg-gray-50 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-light-blue-500">
-                                <label for="user_photo" class="relative text-sm leading-4 font-medium text-gray-700 pointer-events-none">
-                                    <span>Change</span>
-                                    <span class="sr-only"> user photo</span>
-                                </label>
-                                <input @change="profilePrictureChange" id="user_photo" name="user_photo" type="file" class="absolute w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-md">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="hidden relative rounded-full overflow-hidden lg:block">
-                    <img class="object-cover  relative rounded-full w-40 h-40" :src="form.profilePicture ? form.profilePicture : 'https://cdn.pixabay.com/photo/2014/04/03/10/32/businessman-310819_960_720.png'" alt="">
-                    <label for="user-photo" class="absolute inset-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center text-sm font-medium text-white opacity-0 hover:opacity-100 focus-within:opacity-100">
-                        <span>Change</span>
-                        <span class="sr-only">user photo</span>
-                        <input @change="profilePrictureChange" type="file" id="user-photo" name="user-photo" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-md">
-                    </label>
-                </div>
-            </div>
-        </div>
-
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+             <div class="sm:mx-auto sm:w-full sm:max-w-md">
+                <h2 class="pt-6 text-center text-3xl font-extrabold text-gray-900">
+                    Register now for free!
+                </h2>
+            </div>
+            <div class="bg-gray-300 py-8 px-4 shadow sm:rounded-lg sm:px-10">
                 <div class="space-y-6">
                     <div>
                         <label for="first_name" class="block text-sm font-medium text-gray-700"> First Name </label>
@@ -76,12 +48,28 @@
                             <input :disabled="!isEdit" v-model="form.email" name="email" type="text" autocomplete="email" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
                         </div>
                     </div>
-                    <div v-if="isEdit">
-                        <button @click="updateData()" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Update</button>
-                        <button @click="isEdit = !isEdit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 mt-2">Cancel</button>
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700"> Password </label>
+                        <div class="mt-1">
+                            <input v-model="form.password" name="password" type="password" autocomplete="password" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                        </div>
                     </div>
-                    <div v-else>
-                        <button @click="isEdit = !isEdit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Edit</button>
+                    <div>
+                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700"> Repeat Password </label>
+                        <div class="mt-1">
+                            <input v-model="form.password_confirmation" name="password_confirmation" type="password" autocomplete="password_confirmation" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-4">
+                        <div class="flex justify-between items-center">
+                            <input v-model="isReaded" name="remember-me" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                            <label for="remember-me" class="ml-2 block text-sm text-gray-900 ml-4 font-bold">
+                               Yes, I agree with  <a :href="'/disclaimer'" class="text-purple-600 hover:text-purple-400" target="_blank">Disclaimer or terms and condition</a>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <button @click="storeData" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">Register</button>
                     </div>
                 </div>
             </div>
@@ -102,18 +90,18 @@
                     city: '',
                     brgy: '',
                     email: '',
-                    profilePicture: ''
+                    profilePicture: '',
+                    password: '',
+                    password_confirmation: '',
                 },
                 locationsList: locations,
-                brgys:[],
+                brgys: [],
                 image: null,
-                isEdit: false
+                isEdit: true,
+                isReaded: false
             }
         },
         methods:{
-            buttonFunction() {
-
-            },
             brgyList() {
                 for(let value of Object.values(this.locationsList)){
                     if(value.name === this.form.city) {
@@ -126,35 +114,42 @@
                 this.image= event.target.files[0]
                 this.form.profilePicture = URL.createObjectURL(this.image);
             },
-            async getUser() {
-                await axios.get('/my-data')
-                .then(response => {
-                    this.form = response.data.data
-                })
-            },
-            async updateData() {
+            async storeData() {
                 let formData = new FormData();
-                formData.append('image', this.image);
                 formData.append('first_name', this.form.first_name);
                 formData.append('last_name', this.form.last_name);
                 formData.append('phone_no', this.form.phone_no);
                 formData.append('city', this.form.city);
                 formData.append('brgy', this.form.brgy);
                 formData.append('email', this.form.email);
+                formData.append('password', this.form.password);
+                formData.append('password_confirmation', this.form.password_confirmation);
 
-                await axios.post('/update-data', formData)
-                .then(response => {
-                    this.isEdit = false
-                    this.form = response.data.data
+                if(this.form.password != this.form.password_confirmation) {
                     this.$swal.fire({
-                        title: 'Updated Successfully',
+                        title: "Password not Matched!",
                         confirmButtonColor: "#ea580c"
                     })
-                })
+                } else {
+                    if(!this.isReaded) {
+                        this.$swal.fire({
+                            title: "Agree with the disclaimer",
+                            confirmButtonColor: "#ea580c"
+                        })
+                    } else {
+                        await axios.post('/register', formData)
+                        .then(response => {
+                            this.isEdit = false
+                            this.form = response.data.data
+                            this.$swal.fire({
+                                title: 'Registered Successfully',
+                                confirmButtonColor: "#ea580c"
+                            })
+                            window.location.href = "/"
+                        })
+                    }
+                }
             }
-        },
-        created() {
-            this.getUser()
         }
     }
 </script>

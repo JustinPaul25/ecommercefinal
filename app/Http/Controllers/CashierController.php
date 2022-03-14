@@ -40,6 +40,7 @@ class CashierController extends Controller
             Sold::create([
                 'product_id' => $currentProduct->id,
                 'cart_id' => $myCart->id,
+                'method' => 'walk-in',
                 'quantity' => $product['pcs'],
                 'total_price' => $product['pcs']*$currentProduct->price
             ]);

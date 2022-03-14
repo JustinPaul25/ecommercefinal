@@ -42,7 +42,7 @@
 
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-orange-600 hover:text-orange-900" href="{{ route('register') }}">
+                    <a class="underline text-sm text-orange-600 hover:text-orange-900" href="/user-registration">
                         {{ __('No Account Yet??') }}
                     </a>
                 @endif

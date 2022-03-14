@@ -49,14 +49,20 @@
 
       <div class="bg-white  relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-orange-600 focus-within:border-orange-600">
             <div class="mt-1 rounded-md shadow-sm -space-y-px">
-                <div>
-                    <div class="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-orange-600 focus-within:border-orange-600">
-                        <input disabled type="text" value="TOTAL INCOME:" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                <div class="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-orange-600 focus-within:border-orange-600">
+                    <label for="search" class="sr-only">Search</label>
+                    <div class="relative">
+                        <select v-model="paymentMethod" id="search" name="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Search">
+                            <option value="">Method</option>
+                            <option value="e-payment">E-Payment</option>
+                            <option value="pick-up">Pick-Up</option>
+                            <option value="walk-in">Walk In</option>
+                        </select>
                     </div>
                 </div>
                 <div>
                 <div class="relative border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-orange-600 focus-within:border-orange-600">
-                    <input disabled v-model="totalIncome" class="font-bold block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                    <input disabled :value="`Total: ${formatPrice(totalIncome)}`" class="font-bold block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
                 </div>
             </div>
             </div>
@@ -71,6 +77,7 @@
                     <tr>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cart ID</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Qty</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
@@ -81,9 +88,10 @@
                     <tr v-for="sold in solds" :key="sold" class="bg-white">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ sold.cart_id }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.product.name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.method }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.quantity }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.product.price }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.total_price }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatPrice(sold.product.price) }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatPrice(sold.total_price) }}</td>
                     </tr>
 
                     <!-- More people... -->
@@ -109,13 +117,19 @@
                     month: null,
                     year: null,
                     month_year: null,
-                    date: null
+                    date: null,
+                    paymentMethod: ''
                 },
                 totalIncome: 0,
-                printUrl: ''
+                printUrl: '',
+                paymentMethod: '',
             }
         },
         watch: {
+            paymentMethod: function(newValue) {
+                this.params.paymentMethod = newValue
+                this.getReports()
+            },
             date: function(newVal){
                 this.params.month = null
                 this.params.month_year = null

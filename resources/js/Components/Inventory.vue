@@ -24,8 +24,8 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.reserved }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.sold }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.price }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sold.price*sold.sold }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatPrice(sold.price) }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatPrice(sold.price*sold.sold) }}</td>
                     </tr>
 
                     <!-- More people... -->

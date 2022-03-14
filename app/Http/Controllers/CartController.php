@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CustomerOrders;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\CartItem;
 use App\Events\UpateProduct;
 use Illuminate\Http\Request;
 use App\Models\Recommendation;
+use App\Events\UserNotification;
 use App\Events\UpdateProductView;
 use App\Http\Resources\CartItem\CartItemCollection;
 
@@ -48,6 +50,7 @@ class CartController extends Controller
 
         broadcast(new UpdateProductView($product))->toOthers();
         broadcast(new UpateProduct())->toOthers();
+        broadcast(new UserNotification($user))->toOthers();
         return 'product added to cart';
     }
 
@@ -108,6 +111,27 @@ class CartController extends Controller
 
         $items = [];
 
+        broadcast(new CustomerOrders($user))->toOthers();
         return new CartItemCollection($items);
+    }
+
+    public function addQuantity(Request $request)
+    {
+        $cartItem = CartItem::where('id', $request->input('item_id'))->first();
+        $product = Product::where('id', $cartItem->product_id)->first();
+        $reserved = $product->reserved - $cartItem->quantity;
+
+        $cartItem->update([
+            'quantity' => $request->input('quantity')
+        ]);
+
+        $product->update([
+            'reserved' => $reserved + $request->input('quantity')
+        ]);
+
+        broadcast(new UpdateProductView($product))->toOthers();
+        broadcast(new UpateProduct())->toOthers();
+
+        return;
     }
 }
