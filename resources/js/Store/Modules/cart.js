@@ -20,6 +20,7 @@ export default {
             console.log(this.state.cart.cart + 1);
         },
         async addCart({commit}, payload = {}) {
+            console.log(this.state.cart.cart + 1);
             commit('setCart', this.state.cart.cart + 1)
         },
         async removeCart({commit}, payload = {}) {

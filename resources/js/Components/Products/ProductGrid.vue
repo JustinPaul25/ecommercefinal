@@ -178,6 +178,7 @@
                     })
                     this.getProducts(this.page)
                 })
+                await this.$store.dispatch('cart/addCart')
             },
             isLoggedIn() {
                 return this.app.logged_in

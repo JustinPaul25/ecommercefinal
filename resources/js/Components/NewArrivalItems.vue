@@ -69,13 +69,17 @@
 </template>
 
 <script>
-// If you are using PurgeCSS, make sure to whitelist the carousel CSS classes
+import Loading from './LoadingSpinner.vue'
 
 export default {
     data() {
         return {
-            newArrivals: []
+            newArrivals: [],
+            isLoading: false
         }
+    },
+    components: {
+        Loading
     },
     methods: {
         connect(id) {
@@ -135,6 +139,7 @@ export default {
                     confirmButtonColor: "#ea580c"
                 })
             })
+            await this.$store.dispatch('cart/addCart')
         },
         isLoggedIn() {
             if(this.app.logged_in) {

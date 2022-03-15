@@ -167,6 +167,7 @@ export default {
                     confirmButtonColor: "#ea580c"
                 })
             })
+            await this.$store.dispatch('cart/addCart')
         }
     },
     created() {
